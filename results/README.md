@@ -4,10 +4,8 @@ They are organized by clusters, numbered according to the paper.
 Each cluster contains:
 
     -  **Top-scoring model** ( top_scoring_model.rmf ) : Top scoring model representing the cluster, can be visualized using UCSF Chimera.
-    
-To color the model according to the paper use scripts/chimera/color_model_chimera_commands.txt. 
-
-Load it as a Chimera commands file after loading the model on Chimera.
+      To color the model according to the paper use scripts/chimera/color_model_chimera_commands.txt. 
+       Load it as a Chimera commands file after loading the model on Chimera.
 
     - **Per bead densities** : *.dx files. To visualize these in chimera, enter the following line in the terminal: 
     `sh create_chimera_command_file_densities.sh $pdir names_colors HM.dat` 

@@ -17,8 +17,9 @@ Note that the test config files differ in the number of MC steps (only 5000 step
 These are only found at the end of config files in `analysis`, under `Parameters specific to analysis` and describe EM2D parameters and model/parameter file names for analysis.
 
 ## Clustering-specific parameters
+These are only found at the end of config files in `cluster`, under `Parameters specific to clustering` and describe model file names and clustering parameters such as cutoff, number of models to cluster and so on. 
 
 ## Density map-specific parameters
-
+These are only found at the end of config files in `cluster`, under `Parameters specific to density` 
 
 

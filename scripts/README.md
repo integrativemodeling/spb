@@ -39,9 +39,9 @@ Create another directory for analysis in the same directory as `RMF` and `SAMPLE
 Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for analyzing each frame (at temperature 1K) from sampling.
 
    - **Inputs:** The following things need to be in the `DATA` directory:  
-        - The `BIAS` file from the sampling directory
-        - Inputs for analysis (`inputs/analysis`) along with shared inputs (`inputs/shared_inputs`)
-        - Config file for analysis (see `config_files`)
+      - The `BIAS` file from the sampling directory
+      - Inputs for analysis (`inputs/analysis`) along with shared inputs (`inputs/shared_inputs`)
+      - Config file for analysis (see `config_files`)
         
     - **Running:** The sample SGE script provided (`job_analysis.sh`) extracts and rescores multiple frames in a (trivially) parallel manner. Each frame at temperature 1K is extracted from the trajectories output from sampling, stored in the directory `RMF`, and rescored with the EM2D restraint. 
     
@@ -70,4 +70,25 @@ In the parent directory of `ANALYSIS`, create another directory called `CLUSTER`
 **Note:** Running the following script gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_Scoring_model_cluster_$CLUSTER_NUMBER.rmf`.  
 `sh get_top_scoring_model.sh $CLUSTER_NUMBER` 
 
+## 5. Compute density maps
+In this step, localization probability density maps are created for desired clusters. Note that some proteins such as Cnm67, Cmd1 and Spc110 are represented by a single density map each, while others like Spc42 and Spc29 have multiple domains that are represented in different density maps.
 
+In the parent directory of `CLUSTER`, create another directory called `MAKE_DENSITY_PERBEAD` (say), make it the current working directory.
+
+   - **Inputs:** The inputs that need to be in this directory include:    
+        - Shared inputs (`inputs/shared_inputs`)  
+        - Config file for density maps (see `config_files`)
+
+   - **Running:** The sample SGE script provided (`job_density_perbead.sh`) runs density calculation for cluster 0, in less than an hour on 64 cores.
+
+    - **Outputs:** The outputs are files `*.dx` corresponding to the densities of different proteins and domains. Also provided is a file `HM.dat`, that provides the value of the densities at half the maximum (for visualization in Chimera). 
+
+    - **Test version:** The frames clustered in the test clustering run can be visualized using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
+`sh test_density_perbead.sh $IMPDIR` 
+
+To visualize the densities, they can be loaded in Chimera as follows. Enter the following line in the terminal:   
+`sh create_chimera_command_file_densities.sh $pdir names_colors HM.dat`.  
+
+The files `create_chimera_command_file_densities.sh`,`names_colors` can be found in the `scripts/chimera` directory, and `$pdir` is your working directory where the models and densities are stored (it is the full global path: can be obtained by the command `pwd` on linux). HM.dat should be in the same directory as the densities.  
+
+This will create a file called `chimera_density_command_lines.txt`. Now open Chimera with the top scoring model RMF for the cluster and then load the `chimera_density_command_lines.txt` as a Chimera commands file. This should show all the densities.

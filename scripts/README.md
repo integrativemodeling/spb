@@ -92,3 +92,20 @@ To visualize the densities, they can be loaded in Chimera as follows. Enter the 
 The files `create_chimera_command_file_densities.sh`,`names_colors` can be found in the `scripts/chimera` directory, and `$pdir` is your working directory where the models and densities are stored (it is the full global path: can be obtained by the command `pwd` on linux). HM.dat should be in the same directory as the densities.  
 
 This will create a file called `chimera_density_command_lines.txt`. Now open Chimera with the top scoring model RMF for the cluster and then load the `chimera_density_command_lines.txt` as a Chimera commands file. This should show all the densities.
+
+## 6. Compute FRET fit
+In this step, the average FRETR value and the distribution of FRETR values from the models is compared to the averages and distributions of FRETR from experiment.
+
+In the parent dictory of `CLUSTER`, create another directory called `FRET_FIT` (say), make it the current working directory.
+
+   - **Inputs:**
+       - `id.weight.cluster`: a file containing 2 columns: model/frame ID in the first, model weight in the second, for models in the cluster we are interested in.
+       - `fret_exp.dat`: the file containing FRET averages and standard deviations from experiment
+       - `rawdata_all_date.csv` : file containing the raw FRET values from experiment. 
+       The last 2 files are in `inputs/fretfit`. 
+       
+   - **Running:**  The scripts can be run as below (`CLUSTER_NUMBER` is the number of the cluster we are interested in; `SUFFIX` is the name of the output file).  
+`python plot_FRETR_summary.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat SUFFIX`
+`python plot_FRETR_distribution.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat rawdata_all_date.csv SUFFIX`
+
+   - **Outputs:** The summary and distribution scripts produce `fret_summary.pdf` and `fret_distribution.pdf` respectively.

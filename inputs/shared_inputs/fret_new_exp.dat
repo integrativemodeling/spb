@@ -1,0 +1,9 @@
+   Spc110p 700     Spc29p C     1.08     0.11
+   Spc110p 765     Spc29p C     1.13     0.08
+   Spc110p 795     Spc29p C     1.16     0.07
+    Spc29p C      Spc110p 700   1.06     0.07
+    Spc29p C      Spc110p 765   1.07     0.08
+    Spc29p C      Spc110p 795   1.16     0.10
+   Spc110p 765     Spc42p N     1.49     0.13
+     Cmd1p C      Spc110p 765   1.48     0.13
+    Spc42p N      Spc110p 765   1.39     0.13 

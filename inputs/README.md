@@ -17,6 +17,6 @@ The extra input for this step is the EM map (`SPB_2d_padded.tiff`) since we resc
 ## 3) cluster:
 The extra input for this step is `label.dat` the file containing the bead labels on which clustering is performed.
 
-## 3) fretfit: 
+## 4) fretfit: 
 We use the raw FRET data (`rawdata_all_date.csv`) to get the experimental FRET distributions and compare them to the model FRET distributions.
 `fret_exp.dat` contains the experimental averages and standard deviations (data is identical to the FRET files used in sampling, with a minor change in format). 

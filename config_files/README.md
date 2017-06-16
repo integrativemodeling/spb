@@ -22,6 +22,6 @@ These are only found at the end of config files in `cluster`, under `Parameters 
 Note that the test config files differ in the number of models to cluster (only 1000 compared to 24000 in the production runs).
 
 ## Density map-specific parameters
-These are only found at the end of config files in `cluster`, under `Parameters specific to density` and include parameters such as voxel size, reference model for calculating density and so on.
+These are only found at the end of config files in `density_perbead`, under `Parameters specific to density` and include parameters such as voxel size, reference model for calculating density and so on.
 
 

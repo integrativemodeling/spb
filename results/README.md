@@ -12,9 +12,14 @@ Each cluster contains:
   To visualize these in Chimera, enter the following line in the terminal:   
   `sh create_chimera_command_file_densities.sh $pdir names_colors HM.dat` where `$pdir` is your working directory where the models and densities are stored (full global path: can be obtained by the command `pwd` on linux). `names_colors` and `HM.dat` should be in the same directory as the densities.  
       This will create a file called `chimera_density_command_lines.txt`.  
-      
       Now open Chimera with the top scoring model RMF and then load the `chimera_density_command_lines.txt` as a Chimera commands file. This should show all the densities.
       
 - **Fret fit plots** :  plots showing fit of models in the cluster to FRET data.
   - **summary plot** : `fret_summary.pdf` shows how the average model FRET fits with the average experimental FRET.  
   - **distribution plot**: `fret_distribution.pdf` visualizes the distribution of model and experimental FRET values for each FRET pair.
+  
+#### For internal use:
+The location of the actual trajectories and clustered models on disk is as follows:
+- **initial models (2x Spc29)**: The run name is **c42xtal_dist29**. The output of sampling is at `/salilab/park1/shruthi/spb/sampling/c42xtal_dist29` and analysis (and everything else) is at `/salilab/park1/shruthi/spb/clustering/c42xtal_dist29`.
+
+- **final models (1x Spc29)**: The run names are **one29_c42xtal_dist29** and **second_one29_c42xtal_dist29** (run 1 and run 2, the two independent runs). The results shown in the paper are for the set of models obtained by merging these two runs. The directories are: sampling (`/salilab/park1/shruthi/spb/sampling/one29_c42xtal_dist29` and `/salilab/park1/shruthi/spb/sampling/second_one29_c42xtal_dist29`), analysis (`/salilab/park1/shruthi/spb/clustering/one29_c42xtal_dist29` and `/salilab/park1/shruthi/spb/clustering/second_one29_c42xtal_dist29`, and finally analysis for the merged set of models `/salilab/park1/shruthi/spb/clustering/sample_conv`).

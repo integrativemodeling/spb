@@ -1,26 +1,14 @@
-This document describes the parameters appearing in the config files.
+The parameters appearing in the config files can be grouped as 
+  - General parameters that are needed for any SPB executable, and 
+  - Parameters that are specific to different stages of modeling.
+
+Details of parameters are documented in the config files.   
+Note that each SPB executable has a config file in its own directory.  
+Config files for production code (used in the actual modeling) have been separated from those for test runs.
 
 ## General parameters (applicable for all SPB executables)
-  - **SPB proteins**  
-    - `resolution`: the number of residues per bead to represent the protein when there is an atomic model. 
-    - `add_*`: Boolean that specifies whether to include a protein in the simulation/analysis.
-    - `load_*`: RMF file to load the coordinates of a protein from.
- 
-  - **GFP-related**
-    - `use_GFP_structure`: whether to use the crystal structure of GFP.
-    - `keep_GFP_layer`: whether to restrain GFPs in the corresponding layers (CP/IL2)
-    - `GFP_exc_volume`: whether to consider GFPs while calculating excluded volume  
-    - `fix_GFP`: whether to fix the position of GFPs during refinement (not used)
-    - `restraint_GFP`: whether to restrain the position of GFPs during refinement (not used)
-
-  - **Cell-size and layer thickness**
-     - `` :
-     - `` :
-     
-
-  - **FRET-specific**
-
-  - **Other restraints**
+These are found under:
+  - 
 
 ## Sampling-specific parameters 
   - **b**

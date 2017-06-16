@@ -20,6 +20,6 @@ These are only found at the end of config files in `analysis`, under `Parameters
 These are only found at the end of config files in `cluster`, under `Parameters specific to clustering` and describe model file names and clustering parameters such as cutoff, number of models to cluster and so on. 
 
 ## Density map-specific parameters
-These are only found at the end of config files in `cluster`, under `Parameters specific to density` 
+These are only found at the end of config files in `cluster`, under `Parameters specific to density` and include parameters such as voxel size, reference model for calculating density and so on.
 
 

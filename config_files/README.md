@@ -1,4 +1,4 @@
-## Note 
+#### Note 
 Each parameter in the config file is documented directly in the config file.  
 Note that each SPB executable has a config file in its own directory.  
 Config files for production code (used in the actual modeling) have been separated from those used for test runs.

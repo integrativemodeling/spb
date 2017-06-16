@@ -7,13 +7,16 @@ This document describes the parameters appearing in the config files.
     - `load_*`: RMF file to load the coordinates of a protein from.
  
   - **GFP-related**
-    - `use_GFP_structure`: 
-    - `keep_GFP_layer` =false
-    - `GFP_exc_volume` =true
-    - `fix_GFP`=false
-    - `restraint_GFP`=false
+    - `use_GFP_structure`: whether to use the crystal structure of GFP.
+    - `keep_GFP_layer`: whether to restrain GFPs in the corresponding layers (CP/IL2)
+    - `GFP_exc_volume`: whether to consider GFPs while calculating excluded volume  
+    - `fix_GFP`: whether to fix the position of GFPs during refinement (not used)
+    - `restraint_GFP`: whether to restrain the position of GFPs during refinement (not used)
 
   - **Cell-size and layer thickness**
+     - `` :
+     - `` :
+     
 
   - **FRET-specific**
 

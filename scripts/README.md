@@ -36,5 +36,38 @@ In this step, the sampled models at temperature 1K are rescored with the EM2D re
 
 In the parent directory of `SAMPLING`, create a new directory to store the ensemble of models at T=1 (call it `RMF` for example).   
 Create another directory for analysis in the same directory as `RMF` and `SAMPLE` (called `ANALYSIS`), make it the current working directory.  
-Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for analyzing each frame (at temperature 1K) from sampling.   
+Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for analyzing each frame (at temperature 1K) from sampling.
+
+   - **Inputs:** The following things need to be in the `DATA` directory:  
+        - The `BIAS` file from the sampling directory
+        - Inputs for analysis (`inputs/analysis`) along with shared inputs (`inputs/shared_inputs`)
+        - Config file for analysis (see `config_files`)
+        
+    - **Running:** The sample SGE script provided (`job_analysis.sh`) extracts and rescores multiple frames in a (trivially) parallel manner. Each frame at temperature 1K is extracted from the trajectories output from sampling, stored in the directory `RMF`, and rescored with the EM2D restraint. 
+    
+    - **Outputs:** Frames (models) at temperature 1 K are extracted from the sampling trajectories and placed in a separate folder with one model per RMF. For each frame that is rescored, 2 files are output: `fret.dat` (contains FRET score and FRET forward model values) and `log.dat` (contains model weight, model score, the EM2D score, and other parameters such as unit cell size for the model). 
+    
+    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
+      `sh test_analysis.sh $IMPDIR`
+     
+## 4. Cluster 
+In this step, rescored models are clustered, considering the model weight obtained in the previous (analysis) step.  
+
+In the parent directory of `ANALYSIS`, create another directory called `CLUSTER` (say), make it the current working directory.
+
+   - **Inputs:** The inputs that need to be in this directory for clustering include:  
+        - A label file `label.dat` that specifies which beads to use for clustering  
+        - Inputs for clustering (`inputs/cluster`) along with shared inputs (`inputs/shared_inputs`)  
+        - Config file for clustering (see `config_files`)
+
+   - **Running:** The sample SGE script provided (`job_cluster.sh`) runs clustering (takes ~8 hrs on one core).  
+
+   - **Outputs:** The outputs are 3 files: `cluster_center.dat` (File containing list of clusters, one per line. Each line has cluster population, model corresponding to cluster center, cluster diameter and mean distance between models in the cluster.),  `cluster_distance.dat` (Pairwise distances between cluster centers) and `cluster_traj_score_weight.dat` (File with one line per model: each line containing model number, cluster it belongs to, model score, model weight and unit cell size in the model).   
+
+   - **Test version:** The frames created in the test sampling run can be analysed using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
+`sh test_cluster.sh $IMPDIR`  
+
+**Note:** Running the following script gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_Scoring_model_cluster_$CLUSTER_NUMBER.rmf`.  
+`sh get_top_scoring_model.sh $CLUSTER_NUMBER` 
+
 

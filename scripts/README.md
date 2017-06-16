@@ -67,7 +67,7 @@ In the parent directory of `ANALYSIS`, create another directory called `CLUSTER`
    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
 `sh test_cluster.sh $IMPDIR`  
 
-**Note:** Running the following script gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_Scoring_model_cluster_$CLUSTER_NUMBER.rmf`.  
+**Note:** Running the following script gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_scoring_model_cluster_$CLUSTER_NUMBER.rmf`.  
 `sh get_top_scoring_model.sh $CLUSTER_NUMBER` 
 
 ## 5. Compute density maps

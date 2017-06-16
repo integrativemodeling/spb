@@ -33,3 +33,8 @@ Also, one needs to obtain the correct bias file for reweighting in the next step
 
 ## 3. Analysis
 In this step, the sampled models at temperature 1K are rescored with the EM2D restraint (which is too expensive to use in sampling) as well as FRET and other restraints. 
+
+In the parent directory of `SAMPLING`, create a new directory to store the ensemble of models at T=1 (call it `RMF` for example).   
+Create another directory for analysis in the same directory as `RMF` and `SAMPLE` (called `ANALYSIS`), make it the current working directory.  
+Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for analyzing each frame (at temperature 1K) from sampling.   
+

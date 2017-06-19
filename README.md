@@ -3,7 +3,7 @@ This repository pertains to the molecular architecture of the yeast spindle pole
 The repository contains input data, scripts for modeling and results including bead models and localization probability density maps. It uses [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*).
 
 ## Prerequisites for running the code
-Note that the SPB code is almost fully written in C++ and uses native IMP, unlike most other recent integrative modeling projects that use [PMI] (https://github.com/salilab/pmi). 
+Note that the SPB code is almost fully written in C++ and uses native IMP, unlike most other recent integrative modeling projects that use [PMI](https://github.com/salilab/pmi). 
 The SPB code is in [Github](https://github.com/salilab/spb) and must be compiled as a module with a recent version of IMP. [MPI](https://integrativemodeling.org/2.7.0/doc/ref/namespaceIMP_1_1mpi.html) must be used to compile the IMP code so that replica exchange can be used. 
 
 

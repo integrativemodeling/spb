@@ -56,8 +56,8 @@ In this step, rescored models are clustered, considering the model weight obtain
 In the parent directory of `ANALYSIS`, create another directory called `CLUSTER` (say), make it the current working directory.
 
    - **Inputs:** The inputs that need to be in this directory for clustering include:  
-        - A label file `label.dat` that specifies which beads to use for clustering  
-        - Inputs for clustering (`inputs/cluster`) along with shared inputs (`inputs/shared_inputs`)  
+        - Inputs for clustering (`inputs/cluster`): a label file `label.dat` that specifies which beads to use for clustering  
+        - Shared inputs (`inputs/shared_inputs`)  
         - Config file for clustering (see `config_files`)
 
    - **Running:** The sample SGE script provided (`job_cluster.sh`) runs clustering (takes ~8 hrs on one core).  

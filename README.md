@@ -10,10 +10,10 @@ The IMP code must be compiled with [MPI](https://integrativemodeling.org/2.7.0/d
 support so that replica exchange can be used.
 
 ## Folder structure:
-1) _inputs_ : contains all the input data used for modeling such as PDB files, FRET experimental values, and so on.
-2) _config_: contains the config files for each step of modeling: these have the parameters used for each step.
-3) _results_ : contains the results of initial and final modeling runs, showing the models and localization densities of various clusters, along with the fit to FRET data. 
-4) _scripts_ : configuration files, bash scripts and sample scripts to run jobs on the cluster are provided, that call the SPB C++ code. 
+1) [inputs](inputs/) : contains all the input data used for modeling such as PDB files, FRET experimental values, and so on.
+2) [config_files](config_files/): contains the config files for each step of modeling: these have the parameters used for each step.
+3) [results](results/) : contains the results of initial and final modeling runs, showing the models and localization densities of various clusters, along with the fit to FRET data. 
+4) [scripts](scripts/) : configuration files, bash scripts and sample scripts to run jobs on the cluster are provided, that call the SPB C++ code. 
 
 ## Information
 _Author(s)_: Shruthi Viswanath, Massimiliano Bonomi

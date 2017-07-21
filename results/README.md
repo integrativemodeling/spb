@@ -5,7 +5,7 @@ Each cluster contains:
 
 - **Top scoring model** : `top_scoring_model.rmf`, top scoring model representing the cluster, can be visualized using UCSF Chimera.   
   To color the model according to the paper use `scripts/chimera/color_model_chimera_commands.txt`.  
-  Load it as a Chimera commands file after loading the model on Chimera.
+  Load it as a Chimera commands file after loading the model in Chimera.
       
 - **Per-bead densities** : `*.dx`, localization probability density maps for the cluster. 
 

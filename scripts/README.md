@@ -1,7 +1,7 @@
 ## Note: 
 Please also refer to  
-(1) the documentation of the [IMP.spb module](https://integrativemodeling.org/nightly/doc/ref/namespaceIMP_1_1spb.html) for the description of each executable along with its inputs and outputs.  
-(2) the config files in the `config_files` directory that shows what the options are for each executable.
+ 1. the documentation of the [IMP.spb module](https://integrativemodeling.org/nightly/doc/ref/namespaceIMP_1_1spb.html) for the description of each executable along with its inputs and outputs.  
+ 2. the config files in the `config_files` directory that shows what the options are for each executable.
 
 Here we describe how to run the modeling protocol with the executables from the SPB C++ module. The scripts from each directory are described in the order they are used.  
 Each directory also contains a version of the scripts for testing (starting with `test_`) in addition to the production scripts (that were used in the actual modeling).

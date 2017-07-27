@@ -26,7 +26,7 @@ Create a directory for sampling (called `SAMPLING`, for example), make it the cu
 ## 2. Preparation for analysis
 After sampling is complete, to prepare models for analysis, one needs to first extract the frames at temperature 1K from the sampling.   
 The below script can be run in `SAMPLING`, and produces a file called `Index_Replica0`.   
-`sh get_Index_Replica.sh` 
+`../scripts/sampling/get_Index_Replica.sh`
 
 Also, one needs to obtain the correct bias file for reweighting in the next step of analysis. This is performed by the following code that provides an output file BIAS. BIAS is the bias file at the end of the simulation corresponding to the replica at T=1.  
 `sh get_bias_file.sh`

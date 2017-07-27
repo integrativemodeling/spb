@@ -1,6 +1,9 @@
 #!/bin/bash
 
-biasIndex=`seq 0 7 | xargs -i awk '$2==119995 && $3=="REM_Index" {print}' log{} | awk '$4==0 {print NR-1}'`
+LAST_TIMESTEP=$(grep TimeStep log0|tail -1|awk '{print $2}')
+biasIndex=$(awk "\$2==${LAST_TIMESTEP} && \$3==\"REM_Index\" && \$4==0 {print substr(FILENAME, 4)}" log*)
+
+echo "Bias file is BIAS$biasIndex; copied to file BIAS"
 
 cp BIAS$biasIndex BIAS
 

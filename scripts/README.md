@@ -29,7 +29,7 @@ The below script can be run in `SAMPLING`, and produces a file called `Index_Rep
 `../scripts/sampling/get_Index_Replica.sh`
 
 Also, one needs to obtain the correct bias file for reweighting in the next step of analysis. This is performed by the following code that provides an output file BIAS. BIAS is the bias file at the end of the simulation corresponding to the replica at T=1.  
-`sh get_bias_file.sh`
+`../scripts/sampling/get_bias_file.sh`
 
 ## 3. Analysis
 In this step, the sampled models at temperature 1K are rescored with the EM2D restraint (which is too expensive to use in sampling) as well as FRET and other restraints. 

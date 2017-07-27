@@ -4,3 +4,4 @@ prereqs: [python/scipy, python/matplotlib, python/numpy]
 test:
     runtime: 24h
     build: release
+    parallel: 2

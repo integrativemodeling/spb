@@ -9,8 +9,9 @@ Each directory also contains a version of the scripts for testing (starting with
 ## 1. Sample
 In this step, SPB models are sampled using Well-Tempered Ensemble Replica Exchange Gibbs Sampling Monte Carlo. 
 
-Create a directory for sampling (called `SAMPLING`, for example), make it the current working directory.  
-   - **Inputs:**  The files that need to be in the current directory include:
+Create a directory for sampling called `SAMPLING`, and make it the current
+working directory.
+   - **Inputs:**  The files that need to be in the SAMPLING directory include:
         - inputs for sampling (`inputs/shared_inputs`; see README in `inputs` directory)  
         - sampling config file (see `config_files` directory)  
 
@@ -25,16 +26,17 @@ Create a directory for sampling (called `SAMPLING`, for example), make it the cu
 
 ## 2. Preparation for analysis
 After sampling is complete, to prepare models for analysis, one needs to first extract the frames at temperature 1K from the sampling.   
-The below script can be run in `SAMPLING`, and produces a file called `Index_Replica0`.   
-`../scripts/sampling/get_Index_Replica.sh`
+The below script can be run in the `SAMPLING` directory, and produces a file
+called `Index_Replica0`.
+`scripts/sampling/get_Index_Replica.sh`
 
 Also, one needs to obtain the correct bias file for reweighting in the next step of analysis. This is performed by the following code that provides an output file BIAS. BIAS is the bias file at the end of the simulation corresponding to the replica at T=1.  
-`../scripts/sampling/get_bias_file.sh`
+`scripts/sampling/get_bias_file.sh`
 
 ## 3. Analysis
 In this step, the sampled models at temperature 1K are rescored with the EM2D restraint (which is too expensive to use in sampling) as well as FRET and other restraints. 
 
-In the parent directory of `SAMPLING`, create a new directory to store the ensemble of models at T=1 (call it `RMF` for example).   
+In the parent directory of `SAMPLING`, create a new directory to store the ensemble of models at T=1, called `RMF`.
 Create another directory for analysis in the same directory as `RMF` and `SAMPLE` (called `ANALYSIS`), make it the current working directory.  
 Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for analyzing each frame (at temperature 1K) from sampling.
 

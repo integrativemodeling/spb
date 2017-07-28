@@ -19,15 +19,20 @@ class Tests(unittest.TestCase):
             lines = fh.readlines()
         self.assertEqual(len(lines), num_lines)
 
+    def _check_rmf_file(self, r, frames, toplevel_children):
+        """Check an RMF file for expected size"""
+        self.assertEqual(r.get_number_of_frames(), frames)
+        rn = r.get_root_node()
+        self.assertEqual(len(rn.get_children()), toplevel_children)
+
     def _check_sample_rmf_traj(self, fname):
         """Check the RMF trajectory"""
         r = RMF.open_rmf_file_read_only(fname)
         # Test config asked for 5000 steps, saving every 5
-        self.assertEqual(r.get_number_of_frames(), 1000)
+        self._check_rmf_file(r, frames=1000, toplevel_children=609)
         # Test topology
         rn = r.get_root_node()
         topol = rn.get_children()
-        self.assertEqual(len(topol), 609)
         self.assertEqual(topol[0].get_name(), 'Spc42p')
         self.assertEqual(topol[10].get_name(), 'Spc42p-N-GFP')
         self.assertEqual(topol[600].get_name(), 'Spc110p-C-GFP')
@@ -36,11 +41,7 @@ class Tests(unittest.TestCase):
         """Check the RMF ISD trajectory"""
         r = RMF.open_rmf_file_read_only(fname)
         # Test config asked for 5000 steps, saving every 5
-        self.assertEqual(r.get_number_of_frames(), 1000)
-        # Test topology
-        rn = r.get_root_node()
-        topol = rn.get_children()
-        self.assertEqual(len(topol), 15)
+        self._check_rmf_file(r, frames=1000, toplevel_children=15)
 
     def _get_inputs(self, subdir, dirname):
         """Copy all input files from inputs/`subdir` to `dirname`"""
@@ -74,6 +75,17 @@ class Tests(unittest.TestCase):
         self._get_inputs('analysis', 'ANALYSIS/DATA')
         # Run analysis script
         subprocess.check_call(["%s/scripts/analysis/test_analysis.sh" % TOPDIR])
+        # Make sure expected files were produced
+        for i in range(1000):
+            for fname in ('fret.dat', 'log.dat'):
+                self.assertTrue(os.path.exists(os.path.join(
+                                             'ANALYSIS','frame_%d' % i, fname)))
+            for (prefix, toplevel_children) in (('frame', 609),
+                                                ('frameisd', 15)):
+                fname = os.path.join('RMF', '%s_%d.rmf' % (prefix, i))
+                r = RMF.open_rmf_file_read_only(fname)
+                self._check_rmf_file(r, frames=1,
+                                     toplevel_children=toplevel_children)
 
     def run_sampling_step(self):
         """Run the sampling part of the modeling"""

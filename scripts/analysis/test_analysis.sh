@@ -5,6 +5,12 @@ PARENT_DIR=`pwd`
 SAMPLE_DIR=${PARENT_DIR}/SAMPLING
 ANALYSIS_DIR=${PARENT_DIR}/ANALYSIS
 
+if [ ! -d "${SAMPLE_DIR}" -o ! -d "${ANALYSIS_DIR}" ]; then
+  echo "Cannot find SAMPLING and ANALYSIS subdirectories."
+  echo "Run this script in the parent directory of these subdirectories."
+  exit 1
+fi
+
 for ln in `seq 0 999`
 do 
 	cd $PARENT_DIR

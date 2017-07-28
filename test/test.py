@@ -13,6 +13,12 @@ TOPDIR = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
 class Tests(unittest.TestCase):
 
+    def assert_file_length(self, fname, num_lines):
+        """Make sure that the given file has the right number of lines"""
+        with open(fname) as fh:
+            lines = fh.readlines()
+        self.assertEqual(len(lines), num_lines)
+
     def _check_sample_rmf_traj(self, fname):
         """Check the RMF trajectory"""
         r = RMF.open_rmf_file_read_only(fname)
@@ -57,6 +63,14 @@ class Tests(unittest.TestCase):
 
         self._check_sample_rmf_isd_traj('trajisd0.rmf')
         self._check_sample_rmf_isd_traj('trajisd1.rmf')
+
+        # Prepare files for analysis
+        subprocess.check_call(["../scripts/sample/get_Index_Replica.sh"])
+        self.assert_file_length("Index_Replica0", 1000)
+
+        subprocess.check_call(["../scripts/sample/get_bias_file.sh"])
+        self.assert_file_length("BIAS", 8162)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -42,16 +42,47 @@ class Tests(unittest.TestCase):
         topol = rn.get_children()
         self.assertEqual(len(topol), 15)
 
-    def test_sampling(self):
-        """Test sampling step"""
-        os.chdir(TOPDIR)
-        shutil.rmtree('test-sampling', ignore_errors=True)
-        os.mkdir('test-sampling')
-        os.chdir('test-sampling')
+    def _get_inputs(self, subdir, dirname):
+        """Copy all input files from inputs/`subdir` to `dirname`"""
+        for f in glob.glob('%s/inputs/%s/*' % (TOPDIR, subdir)):
+            shutil.copy(f, dirname)
+
+    def _get_shared_inputs(self, dirname):
+        """Copy all shared input files to `dirname`"""
+        self._get_inputs('shared_inputs', dirname)
+
+    def test_modeling(self):
+        """Test complete modeling run"""
+        self.test_dir = os.path.join(TOPDIR, 'test-output')
+
+        shutil.rmtree(self.test_dir, ignore_errors=True)
+        os.mkdir(self.test_dir)
+        self.run_sampling_step()
+        self.run_analysis_step()
+
+    def run_analysis_step(self):
+        """Run the analysis part of the modeling"""
+        os.chdir(self.test_dir)
+        os.mkdir('ANALYSIS')
+        os.mkdir('ANALYSIS/DATA')
+        os.mkdir('RMF')
         # Get all needed input files
-        shutil.copy('../config_files/test/sample/config.ini', '.')
-        for f in glob.glob('../inputs/shared_inputs/*'):
-            shutil.copy(f, '.')
+        shutil.copy('SAMPLING/BIAS', 'ANALYSIS/DATA')
+        shutil.copy('%s/config_files/test/analysis/config.ini' % TOPDIR,
+                    'ANALYSIS/DATA')
+        self._get_shared_inputs('ANALYSIS/DATA')
+        self._get_inputs('analysis', 'ANALYSIS/DATA')
+        # Run analysis script
+        subprocess.check_call(["%s/scripts/analysis/test_analysis.sh" % TOPDIR])
+
+    def run_sampling_step(self):
+        """Run the sampling part of the modeling"""
+        sample_dir = os.path.join(self.test_dir, 'SAMPLING')
+        os.mkdir(sample_dir)
+        os.chdir(sample_dir)
+        # Get all needed input files
+        shutil.copy('%s/config_files/test/sample/config.ini' % TOPDIR, '.')
+        self._get_shared_inputs('.')
         # Run on two processors
         p = subprocess.check_call(["mpirun", "-n", "2", "spb"])
         # Make sure expected files were produced
@@ -65,10 +96,11 @@ class Tests(unittest.TestCase):
         self._check_sample_rmf_isd_traj('trajisd1.rmf')
 
         # Prepare files for analysis
-        subprocess.check_call(["../scripts/sample/get_Index_Replica.sh"])
+        subprocess.check_call(["%s/scripts/sample/get_Index_Replica.sh"
+                               % TOPDIR])
         self.assert_file_length("Index_Replica0", 1000)
 
-        subprocess.check_call(["../scripts/sample/get_bias_file.sh"])
+        subprocess.check_call(["%s/scripts/sample/get_bias_file.sh" % TOPDIR])
         self.assert_file_length("BIAS", 8162)
 
 

@@ -1,13 +1,5 @@
 #!/bin/bash
 
-imp_dir=$1
-
-# IMP stuff
-IMP=$imp_dir/setup_environment.sh
-SLICE=$imp_dir/rmf_slice
-ANAL=$imp_dir/module_bin/membrane/spb_analysis
-
-
 # run this in the parent directory (where the SAMPLING, ANALYSIS etc directories are located)
 PARENT_DIR=`pwd`
 SAMPLE_DIR=${PARENT_DIR}/SAMPLING
@@ -28,8 +20,8 @@ do
 	frame=`echo $riga | awk '{print $2/5}'`
 
 	# slice from global rmf 
-	$IMP $SLICE ${SAMPLE_DIR}/traj${id}.rmf    ./RMF/frame_${i}.rmf    -f $frame
-	$IMP $SLICE ${SAMPLE_DIR}/trajisd${id}.rmf ./RMF/frameisd_${i}.rmf -f $frame
+	rmf_slice ${SAMPLE_DIR}/traj${id}.rmf    ./RMF/frame_${i}.rmf    -f $frame
+	rmf_slice ${SAMPLE_DIR}/trajisd${id}.rmf ./RMF/frameisd_${i}.rmf -f $frame
 
 	# 2) run spb_analysis
 	cd ANALYSIS
@@ -47,7 +39,7 @@ do
 	ln -s ../../RMF/frameisd_${i}.rmf  ./frameisd.rmf
 	
 	# do analysis for this frame
-	$IMPANAL $ANAL
+	spb_analysis
 
 	# clean
 	rm *.pdb config.ini BIAS fret_new_exp.dat fret_2014.dat *.tiff frame.rmf frameisd.rmf

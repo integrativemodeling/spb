@@ -60,6 +60,7 @@ class Tests(unittest.TestCase):
         os.mkdir(self.test_dir)
         self.run_sampling_step()
         self.run_analysis_step()
+        self.run_clustering_step()
 
     def run_analysis_step(self):
         """Run the analysis part of the modeling"""
@@ -115,6 +116,17 @@ class Tests(unittest.TestCase):
         subprocess.check_call(["%s/scripts/sample/get_bias_file.sh" % TOPDIR])
         self.assert_file_length("BIAS", 8162)
 
+    def run_clustering_step(self):
+        """Run the clustering part of the modeling"""
+        os.chdir(self.test_dir)
+        os.mkdir('CLUSTER')
+        os.chdir('CLUSTER')
+        # Get all needed input files
+        shutil.copy('%s/config_files/test/cluster/config.ini' % TOPDIR, '.')
+        self._get_shared_inputs('.')
+        self._get_inputs('cluster', '.')
+        # Run clustering script
+        subprocess.check_call(["%s/scripts/cluster/test_cluster.sh" % TOPDIR])
 
 if __name__ == '__main__':
     unittest.main()

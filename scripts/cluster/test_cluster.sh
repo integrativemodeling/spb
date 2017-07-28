@@ -1,12 +1,15 @@
+#!/bin/bash
 
-imp_dir=$1
+# Exit immediately on error
+set -e
 
-# IMP stuff
-IMP=$imp_dir/setup_environment.sh
-CLUSTER=$imp_dir//module_bin/membrane/spb_cluster
+LAST_FRAME=$(( $(ls -d ../ANALYSIS/frame_*| wc -l) - 1 ))
 
 # get the weight.dat file from reweighting using EM2D score
-rm weight.dat; for i in `seq 0 999`; do awk '{print $16}' ../ANALYSIS/frame_$i/log.dat >> weight.dat ; done
+rm -f weight.dat
+for i in $(seq 0 $LAST_FRAME); do
+  awk '{print $16}' ../ANALYSIS/frame_$i/log.dat >> weight.dat
+done
 
 # do clustering 
-$IMP $CLUSTER
+spb_cluster

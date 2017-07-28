@@ -55,7 +55,7 @@ Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for
 ## 4. Cluster 
 In this step, rescored models are clustered, considering the model weight obtained in the previous (analysis) step.  
 
-In the parent directory of `ANALYSIS`, create another directory called `CLUSTER` (say), make it the current working directory.
+In the parent directory of `ANALYSIS`, create another directory called `CLUSTER`, and make it the current working directory.
 
    - **Inputs:** The inputs that need to be in this directory for clustering include:  
         - Inputs for clustering (`inputs/cluster`): a label file `label.dat` that specifies which beads to use for clustering  
@@ -66,8 +66,8 @@ In the parent directory of `ANALYSIS`, create another directory called `CLUSTER`
 
    - **Outputs:** The outputs are 3 files: `cluster_center.dat` (File containing list of clusters, one per line. Each line has cluster population, model corresponding to cluster center, cluster diameter and mean distance between models in the cluster.),  `cluster_distance.dat` (Pairwise distances between cluster centers) and `cluster_traj_score_weight.dat` (File with one line per model: each line containing model number, cluster it belongs to, model score, model weight and unit cell size in the model).   
 
-   - **Test version:** The frames created in the test sampling run can be analysed using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
-`sh test_cluster.sh $IMPDIR`  
+   - **Test version:** The frames created in the test sampling run can be analysed using the test script as below, run in the `CLUSTER` directory. Do not forget to use the test config script (see `config_files` directory) while running the test script.
+`scripts/cluster/test_cluster.sh`
 
 **Note:** Running the following script gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_scoring_model_cluster_$CLUSTER_NUMBER.rmf`.  
 `sh get_top_scoring_model.sh $CLUSTER_NUMBER` 

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit immediately on error
+set -e
+
 # run this in the parent directory (where the SAMPLING, ANALYSIS etc directories are located)
 PARENT_DIR=`pwd`
 SAMPLE_DIR=${PARENT_DIR}/SAMPLING
@@ -11,11 +14,14 @@ if [ ! -d "${SAMPLE_DIR}" -o ! -d "${ANALYSIS_DIR}" ]; then
   exit 1
 fi
 
-for ln in `seq 0 999`
+RMF_FRAMES=$(rmf_info ${SAMPLE_DIR}/traj0.rmf |grep Frames | cut -d' ' -f2)
+
+for ln in `seq 1 $RMF_FRAMES`
 do 
 	cd $PARENT_DIR
 	
-	i=`echo $ln | awk '{print $1-1}'` # i is just ln index - 1
+	# Get zero-based index
+	i=$((ln - 1))
 
 	# 1) extract rmf with single frame and store it in RMF directory
 	# get info about the i-th frame
@@ -25,12 +31,14 @@ do
 	# frame id
 	frame=`echo $riga | awk '{print $2/5}'`
 
+	echo "Analyzing frame $ln of $RMF_FRAMES"
+
 	# slice from global rmf 
 	rmf_slice ${SAMPLE_DIR}/traj${id}.rmf    ./RMF/frame_${i}.rmf    -f $frame
 	rmf_slice ${SAMPLE_DIR}/trajisd${id}.rmf ./RMF/frameisd_${i}.rmf -f $frame
 
 	# 2) run spb_analysis
-	cd ANALYSIS
+	cd ${ANALYSIS_DIR}
 	# create working directory
 	mkdir frame_${i}
 	# go there

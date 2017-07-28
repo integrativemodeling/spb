@@ -49,8 +49,8 @@ Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for
     
     - **Outputs:** Frames (models) at temperature 1 K are extracted from the sampling trajectories and placed in a separate folder with one model per RMF. For each frame that is rescored, 2 files are output: `fret.dat` (contains FRET score and FRET forward model values) and `log.dat` (contains model weight, model score, the EM2D score, and other parameters such as unit cell size for the model). 
     
-    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
-      `sh test_analysis.sh $IMPDIR`
+    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below. Do not forget to use the test config script (see `config_files` directory) while running the test script.
+      `scripts/analysis/test_analysis.sh`
      
 ## 4. Cluster 
 In this step, rescored models are clustered, considering the model weight obtained in the previous (analysis) step.  

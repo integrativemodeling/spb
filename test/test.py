@@ -132,6 +132,12 @@ class Tests(unittest.TestCase):
                          num_clusters * (num_clusters-1) / 2 + 1)
         self.assertEqual(self.get_file_length("cluster_traj_score_weight.dat"),
                          1001)
+        for i in range(num_clusters):
+            # Check the top-scoring-model script
+            subprocess.check_call(["%s/scripts/cluster/get_top_scoring_model.sh"
+                                   % TOPDIR, str(i)])
+            self.assertTrue(os.path.exists('top_scoring_model_cluster_%d.rmf'
+                                           % i))
 
 if __name__ == '__main__':
     unittest.main()

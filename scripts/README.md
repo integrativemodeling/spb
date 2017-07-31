@@ -76,7 +76,7 @@ gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, a
 ## 5. Compute density maps
 In this step, localization probability density maps are created for desired clusters. Note that some proteins such as Cnm67, Cmd1 and Spc110 are represented by a single density map each, while others like Spc42 and Spc29 have multiple domains that are represented in different density maps.
 
-In the parent directory of `CLUSTER`, create another directory called `MAKE_DENSITY_PERBEAD` (say), make it the current working directory.
+In the parent directory of `CLUSTER`, create another directory called `MAKE_DENSITY_PERBEAD`, and make it the current working directory.
 
    - **Inputs:** The inputs that need to be in this directory include:    
         - Shared inputs (`inputs/shared_inputs`)  
@@ -86,8 +86,8 @@ In the parent directory of `CLUSTER`, create another directory called `MAKE_DENS
 
     - **Outputs:** The outputs are files `*.dx` corresponding to the densities of different proteins and domains. Also provided is a file `HM.dat`, that provides the value of the densities at half the maximum (for visualization in Chimera). 
 
-    - **Test version:** The frames clustered in the test clustering run can be visualized using the test script as below (`$IMPDIR` is the location of the IMP build directory). Do not forget to use the test config script (see `config_files` directory) while running the test script.  
-`sh test_density_perbead.sh $IMPDIR` 
+    - **Test version:** The frames clustered in the test clustering run can be visualized by running the test script from the `MAKE_DENSITY_PERBEAD` directory as below Do not forget to use the test config (see `config_files` directory) while running the test script.
+    `scripts/density_perbead/test_density_perbead.sh`
 
 To visualize the densities, they can be loaded in Chimera as follows. Enter the following line in the terminal:   
 `sh create_chimera_command_file_densities.sh $pdir names_colors HM.dat`.  

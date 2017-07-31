@@ -13,11 +13,10 @@ TOPDIR = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
 class Tests(unittest.TestCase):
 
-    def assert_file_length(self, fname, num_lines):
-        """Make sure that the given file has the right number of lines"""
+    def get_file_length(self, fname):
+        """Get the number of lines in the file"""
         with open(fname) as fh:
-            lines = fh.readlines()
-        self.assertEqual(len(lines), num_lines)
+            return len(fh.readlines())
 
     def _check_rmf_file(self, r, frames, toplevel_children):
         """Check an RMF file for expected size"""
@@ -111,10 +110,10 @@ class Tests(unittest.TestCase):
         # Prepare files for analysis
         subprocess.check_call(["%s/scripts/sample/get_Index_Replica.sh"
                                % TOPDIR])
-        self.assert_file_length("Index_Replica0", 1000)
+        self.assertEqual(self.get_file_length("Index_Replica0"), 1000)
 
         subprocess.check_call(["%s/scripts/sample/get_bias_file.sh" % TOPDIR])
-        self.assert_file_length("BIAS", 8162)
+        self.assertEqual(self.get_file_length("BIAS"), 8162)
 
     def run_clustering_step(self):
         """Run the clustering part of the modeling"""
@@ -127,6 +126,12 @@ class Tests(unittest.TestCase):
         self._get_inputs('cluster', '.')
         # Run clustering script
         subprocess.check_call(["%s/scripts/cluster/test_cluster.sh" % TOPDIR])
+        # Check outputs
+        num_clusters = self.get_file_length("cluster_center.dat") - 1
+        self.assertEqual(self.get_file_length("cluster_distance.dat"),
+                         num_clusters * (num_clusters-1) / 2 + 1)
+        self.assertEqual(self.get_file_length("cluster_traj_score_weight.dat"),
+                         1001)
 
 if __name__ == '__main__':
     unittest.main()

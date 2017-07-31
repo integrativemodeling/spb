@@ -98,7 +98,7 @@ This will create a file called `chimera_density_command_lines.txt`. Now open Chi
 ## 6. Compute FRET fit
 In this step, the average FRETR value and the distribution of FRETR values from the models is compared to the averages and distributions of FRETR from experiment.
 
-In the parent dictory of `CLUSTER`, create another directory called `FRET_FIT` (say), make it the current working directory.
+In the parent directory of `CLUSTER`, create another directory called `FRET_FIT` (say), make it the current working directory.
 
    - **Inputs:**
        - `id.weight.cluster`: a file containing 2 columns: model/frame ID in the first, model weight in the second, for models in the cluster we are interested in.

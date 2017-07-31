@@ -1,16 +1,29 @@
-# current directory
-dir=$1
-# file with density maps colors
-file=$2
-# file with density maps level value
-levels=$3
+#!/bin/bash
 
-nlines=`wc -l ${file} | awk '{print $1}'`
+# Exit immediately on error
+set -e
+
+# working directory
+dir=$(pwd)
+# file with density maps colors
+file=$(dirname $0)/names_colors
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 levels-file"
+  echo
+  echo "levels-file is usually HM.dat, in the same directory as the *.dx files"
+  exit 1
+fi
+
+# file with density maps level value
+levels=$1
+
+nlines=$(wc -l < ${file})
 
 # remove old chimera file
-rm chimera_density_command_lines.txt 2>/dev/null
+rm -f chimera_density_command_lines.txt
 
-for i in `seq 1 ${nlines}`
+for i in $(seq 1 ${nlines})
 do
  # extract i-th line
  riga=`sed -n ${i}p ${file}`
@@ -31,3 +44,7 @@ done
 # now add visualization stuff
 echo "vol all show" >> chimera_density_command_lines.txt
 echo "window" >> chimera_density_command_lines.txt
+
+echo "Chimera command file created, as chimera_density_command_lines.txt"
+echo "Load the top-scoring model RMF into Chimera and then the above file"
+echo "(as a Chimera commands file) to visualize the densities."

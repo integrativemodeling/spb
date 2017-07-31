@@ -89,10 +89,9 @@ In the parent directory of `CLUSTER`, create another directory called `MAKE_DENS
     - **Test version:** The frames clustered in the test clustering run can be visualized by running the test script from the `MAKE_DENSITY_PERBEAD` directory as below Do not forget to use the test config (see `config_files` directory) while running the test script.
     `scripts/density_perbead/test_density_perbead.sh`
 
-To visualize the densities, they can be loaded in Chimera as follows. Enter the following line in the terminal:   
-`sh create_chimera_command_file_densities.sh $pdir names_colors HM.dat`.  
-
-The files `create_chimera_command_file_densities.sh`,`names_colors` can be found in the `scripts/chimera` directory, and `$pdir` is your working directory where the models and densities are stored (it is the full global path: can be obtained by the command `pwd` on linux). HM.dat should be in the same directory as the densities.  
+To visualize the densities, they can be loaded in Chimera as follows. First,
+run the following script from within the `MAKE_DENSITY_PERBEAD` directory:
+    `scripts/chimera/create_chimera_command_file_densities.sh HM.dat`
 
 This will create a file called `chimera_density_command_lines.txt`. Now open Chimera with the top scoring model RMF for the cluster and then load the `chimera_density_command_lines.txt` as a Chimera commands file. This should show all the densities.
 

@@ -60,6 +60,7 @@ class Tests(unittest.TestCase):
         self.run_sampling_step()
         self.run_analysis_step()
         self.run_clustering_step()
+        self.make_density_maps()
 
     def run_analysis_step(self):
         """Run the analysis part of the modeling"""
@@ -138,6 +139,31 @@ class Tests(unittest.TestCase):
                                    % TOPDIR, str(i)])
             self.assertTrue(os.path.exists('top_scoring_model_cluster_%d.rmf'
                                            % i))
+
+    def make_density_maps(self):
+        """Test the construction of density maps"""
+        os.chdir(self.test_dir)
+        os.mkdir('MAKE_DENSITY_PERBEAD')
+        os.chdir('MAKE_DENSITY_PERBEAD')
+        # Get all needed input files
+        shutil.copy('%s/config_files/test/density_perbead/config.ini' % TOPDIR,
+                    '.')
+        self._get_shared_inputs('.')
+        # Run density map script
+        subprocess.check_call(["%s/scripts/density_perbead/"
+                               "test_density_perbead.sh" % TOPDIR])
+        # Check outputs
+        self.assertEqual(self.get_file_length("HM.dat"), 8)
+        for comp in ('Cmd1p', 'Spc110p', 'Spc29p_n0', 'Spc42p_c0', 'Cnm67p',
+                     'Spc29p_c0', 'Spc42_CC', 'Spc42p_n0'):
+            self.assertTrue(os.path.exists(comp + '.dx'))
+
+        # Check Chimera command script
+        subprocess.check_call(["%s/scripts/chimera/"
+                               "create_chimera_command_file_densities.sh"
+                               % TOPDIR, "HM.dat"])
+        self.assertEqual(self.get_file_length(
+                                "chimera_density_command_lines.txt"), 18)
 
 if __name__ == '__main__':
     unittest.main()

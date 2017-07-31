@@ -69,8 +69,9 @@ In the parent directory of `ANALYSIS`, create another directory called `CLUSTER`
    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below, run in the `CLUSTER` directory. Do not forget to use the test config script (see `config_files` directory) while running the test script.
 `scripts/cluster/test_cluster.sh`
 
-**Note:** Running the following script gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_scoring_model_cluster_$CLUSTER_NUMBER.rmf`.  
-`sh get_top_scoring_model.sh $CLUSTER_NUMBER` 
+**Note:** Running the following script in the `CLUSTER` directory
+gives the model number for the top scoring model of cluster `$CLUSTER_NUMBER`, and stores it in the file `top_scoring_model_cluster_$CLUSTER_NUMBER.rmf`.
+`scripts/cluster/get_top_scoring_model.sh $CLUSTER_NUMBER`
 
 ## 5. Compute density maps
 In this step, localization probability density maps are created for desired clusters. Note that some proteins such as Cnm67, Cmd1 and Spc110 are represented by a single density map each, while others like Spc42 and Spc29 have multiple domains that are represented in different density maps.

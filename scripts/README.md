@@ -101,13 +101,18 @@ In this step, the average FRETR value and the distribution of FRETR values from 
 In the parent directory of `CLUSTER`, create another directory called `FRET_FIT` (say), make it the current working directory.
 
    - **Inputs:**
-       - `id.weight.cluster`: a file containing 2 columns: model/frame ID in the first, model weight in the second, for models in the cluster we are interested in. An example script is provided (`scripts/fretfit/get_id_weights.sh`) that creates this file from the output of clustering.
+       - the `cluster_traj_score_weight.dat` file produced by the
+         clustering step, above.
        - `fret_exp.dat`: the file containing FRET averages and standard deviations from experiment
        - `rawdata_all_date.csv` : file containing the raw FRET values from experiment. 
        The last 2 files are in `inputs/fretfit`. 
        
-   - **Running:**  The scripts can be run as below (`CLUSTER_NUMBER` is the number of the cluster we are interested in; `SUFFIX` is the name of the output file).  
-`scripts/fretfit/plot_FRETR_summary.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat SUFFIX`
-`scripts/fretfit/plot_FRETR_distribution.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat rawdata_all_date.csv SUFFIX`
+   - **Running:**  The scripts can be run as below, in the `FRET_FIT` directory
+     (`CLUSTER_NUMBER` is the number of the cluster we are interested in;
+      `SUFFIX` names the output file).
+    `scripts/fretfit/plot_FRETR_summary.py CLUSTER_NUMBER ../CLUSTER/cluster_traj_score_weight.dat ../ANALYSIS fret_exp.dat SUFFIX`
+    `scripts/fretfit/plot_FRETR_distribution.py CLUSTER_NUMBER ../CLUSTER/cluster_traj_score_weight.dat ../ANALYSIS fret_exp.dat rawdata_all_date.csv SUFFIX`
 
-   - **Outputs:** The summary and distribution scripts produce `fret_summary.pdf` and `fret_distribution.pdf` respectively.
+   - **Outputs:** The summary and distribution scripts produce
+`fretsummary_SUFFIX_clusterCLUSTER_NUMBER.pdf` and
+`fret_fit_SUFFIX_cluster_CLUSTER_NUMBER.pdf` respectively.

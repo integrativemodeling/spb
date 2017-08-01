@@ -61,6 +61,7 @@ class Tests(unittest.TestCase):
         self.run_analysis_step()
         self.run_clustering_step()
         self.make_density_maps()
+        self.make_fret_fit()
 
     def run_analysis_step(self):
         """Run the analysis part of the modeling"""
@@ -164,6 +165,29 @@ class Tests(unittest.TestCase):
                                % TOPDIR, "HM.dat"])
         self.assertEqual(self.get_file_length(
                                 "chimera_density_command_lines.txt"), 18)
+
+    def make_fret_fit(self):
+        """Test the FRET fit plots"""
+        os.chdir(self.test_dir)
+        os.mkdir('FRET_FIT')
+        os.chdir('FRET_FIT')
+        # Get all needed input files
+        self._get_inputs('fretfit', '.')
+        # Run summary script
+        subprocess.check_call([
+               "%s/scripts/fretfit/plot_FRETR_summary.py" % TOPDIR, "0",
+               "../CLUSTER/cluster_traj_score_weight.dat", "../ANALYSIS/",
+               "fret_exp.dat", "MYSUFF"])
+        # Check outputs
+        self.assertTrue(os.path.exists("fretsummary_MYSUFF_cluster0.pdf"))
+
+        # Run distribution script
+        subprocess.check_call([
+               "%s/scripts/fretfit/plot_FRETR_distribution.py" % TOPDIR, "0",
+               "../CLUSTER/cluster_traj_score_weight.dat", "../ANALYSIS/",
+               "fret_exp.dat", "rawdata_all_date.csv", "MYSUFF"])
+        # Check outputs
+        self.assertTrue(os.path.exists("fret_fit_MYSUFF_cluster_0.pdf"))
 
 if __name__ == '__main__':
     unittest.main()

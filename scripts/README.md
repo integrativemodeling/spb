@@ -107,7 +107,7 @@ In the parent directory of `CLUSTER`, create another directory called `FRET_FIT`
        The last 2 files are in `inputs/fretfit`. 
        
    - **Running:**  The scripts can be run as below (`CLUSTER_NUMBER` is the number of the cluster we are interested in; `SUFFIX` is the name of the output file).  
-`python plot_FRETR_summary.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat SUFFIX`  
-`python plot_FRETR_distribution.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat rawdata_all_date.csv SUFFIX`
+`scripts/fretfit/plot_FRETR_summary.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat SUFFIX`
+`scripts/fretfit/plot_FRETR_distribution.py CLUSTER_NUMBER id.weight.cluster ../ANALYSIS fret_exp.dat rawdata_all_date.csv SUFFIX`
 
    - **Outputs:** The summary and distribution scripts produce `fret_summary.pdf` and `fret_distribution.pdf` respectively.

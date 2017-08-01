@@ -35,6 +35,9 @@ for line in open(WEIGHT_FILE_,'r').readlines():
     if(int(riga[1])!=CL_ID_): continue
     ww.append(float(riga[3]))
     ids.append(int(riga[0]))
+if len(ids) == 0:
+    raise ValueError("No data read from %s - check the file format!"
+                     % WEIGHT_FILE_)
 
 # read data file, with fret pairs, fexp, and fexp_err
 data={}

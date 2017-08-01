@@ -40,6 +40,9 @@ for line in open(WEIGHT_FILE_,'r').readlines():
     if(int(riga[1])!=CL_ID_): continue
     ww_models.append(float(riga[3]))
     ids.append(int(riga[0]))
+if len(ids) == 0:
+    raise ValueError("No data read from %s - check the file format!"
+                     % WEIGHT_FILE_)
 
 print("Finished reading cluster weights file.")
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -40,7 +41,7 @@ for line in open(WEIGHT_FILE_,'r').readlines():
     ww_models.append(float(riga[3]))
     ids.append(int(riga[0]))
 
-print "Finished reading cluster weights file."
+print("Finished reading cluster weights file.")
 
 # read data file, with fret pairs, fexp, and fexp_err
 data={}
@@ -53,7 +54,7 @@ for line in open(DATA_FILE_,'r').readlines():
     data["fexp"].append(float(riga[2]))
     data["fexp_err"].append(float(riga[3]))
 
-print "Finished reading the FRETR values used for sampling."
+print("Finished reading the FRETR values used for sampling.")
 
 # read raw data
 rawdatawithdate={}
@@ -91,7 +92,7 @@ for pair in rawdatawithdate:
 	    rawdata[pair].append(fret_date[0])
 	    ww_raw[pair].append(1.0/wtfretrbydate[pair][fret_date[1]])
 	    		
-print "Finished reading raw experimental data"
+print("Finished reading raw experimental data")
 
 # read model data
 fmod={}
@@ -99,7 +100,7 @@ fmod={}
 for pair in data["name"]:
     fmod[pair]=[]
 
-#print fmod
+#print(fmod)
 
 # cycle on cluster members
 dirs_to_search=[ANAL_DIR_]
@@ -119,9 +120,9 @@ for id in ids:
      		fmod[pair].append(float(riga[6]))
 
  
-print "Number of FRET points", len(fmod)
+print("Number of FRET points", len(fmod))
 
-print "Finished reading FRETR from models"
+print("Finished reading FRETR from models")
 
 def get_histo_models(modeldata, ws_models, xmin, xmax):
     
@@ -172,7 +173,7 @@ def get_histo_raw(rawdatapair, ws_raw_pair, xmin, xmax):
     iqr = q75 - q25 #inter quartile range
    
     #if iqr == 0.0:
-    #	print rawdatapair, ws_raw_pair
+    #	print(rawdatapair, ws_raw_pair)
  
     #spacing
     dx = 2.0 * iqr * (float(len(rawdatapair))**(-1.0/3.0))
@@ -239,7 +240,7 @@ def get_FRETR_GFP_names(pair):
 
 fig = plt.figure()
 
-print "Plotting"
+print("Plotting")
 
 for i, pair in enumerate(data["name"]):
 

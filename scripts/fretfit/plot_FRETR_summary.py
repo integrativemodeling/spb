@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -74,8 +75,8 @@ xvals=[i+1 for i in range(len(fmod))]
 yvals=[fmod[pair] for pair in data["name"]]
 
 for pair,i in zip(data["name"],range(len(data["name"]))):
-    #print pair, fmod[pair], data["fexp"][i], data["fexp_err"][i]
-    print pair[0],pair[1], "%.4f" %(fmod[pair]) , data["fexp"][i], data["fexp_err"][i]
+    #print(pair, fmod[pair], data["fexp"][i], data["fexp_err"][i])
+    print(pair[0],pair[1], "%.4f" %(fmod[pair]) , data["fexp"][i], data["fexp_err"][i])
 
 # plot experimental value with error
 plt.figure()

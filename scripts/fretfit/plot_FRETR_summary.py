@@ -52,23 +52,23 @@ fmod={}
 # initialize dictionary of lists
 for pair in data["name"]:
     fmod[pair]=0.0
-    
+
 # first normalize the weights to sum to 1
 sum_ww=0.0
 for wt in ww:
-  sum_ww=sum_ww+wt
+    sum_ww=sum_ww+wt
 
 for i in range(len(ww)):
-  ww[i]=ww[i]/sum_ww
+    ww[i]=ww[i]/sum_ww
 
-# cycle on cluster members 
+# cycle on cluster members
 for id,weight in zip(ids,ww):
- # open fret.dat file 
- for line in open(ANAL_DIR_+"/frame_"+str(id)+"/fret.dat",'r').readlines():
-     riga=line.strip().split()
-     if(riga[2]!="Name"): continue
-     pair=(riga[3],riga[4])
-     fmod[pair]=fmod[pair]+float(riga[6])*weight 
+    # open fret.dat file
+    for line in open(ANAL_DIR_+"/frame_"+str(id)+"/fret.dat",'r').readlines():
+        riga=line.strip().split()
+        if(riga[2]!="Name"): continue
+        pair=(riga[3],riga[4])
+        fmod[pair]=fmod[pair]+float(riga[6])*weight
 
 
 xvals=[i+1 for i in range(len(fmod))]
@@ -89,7 +89,7 @@ plt.ylabel("FRET$_R$")
 
 if OUTFILE_SUFFIX_=="MERGED_RUNS_CLUSTER_WITHOUT_SPC29":
     plt.legend([exptPlot,modelPlot],["Experiment","Model (1x Spc29)"])
-elif OUTFILE_SUFFIX_=="TWOCOPIESSPC29_CLUSTER_WITH_SPC29": 
+elif OUTFILE_SUFFIX_=="TWOCOPIESSPC29_CLUSTER_WITH_SPC29":
     plt.legend([exptPlot,modelPlot],["Experiment","Model (2x Spc29)"])
 else:
     plt.legend([exptPlot,modelPlot],["Experiment","Model"])

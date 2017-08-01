@@ -101,7 +101,7 @@ In this step, the average FRETR value and the distribution of FRETR values from 
 In the parent directory of `CLUSTER`, create another directory called `FRET_FIT` (say), make it the current working directory.
 
    - **Inputs:**
-       - `id.weight.cluster`: a file containing 2 columns: model/frame ID in the first, model weight in the second, for models in the cluster we are interested in. An example script is added (`get_id_weights.sh`) that creates this file from the output of clustering.
+       - `id.weight.cluster`: a file containing 2 columns: model/frame ID in the first, model weight in the second, for models in the cluster we are interested in. An example script is provided (`scripts/fretfit/get_id_weights.sh`) that creates this file from the output of clustering.
        - `fret_exp.dat`: the file containing FRET averages and standard deviations from experiment
        - `rawdata_all_date.csv` : file containing the raw FRET values from experiment. 
        The last 2 files are in `inputs/fretfit`. 

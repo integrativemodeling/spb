@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.838732.svg)](https://doi.org/10.5281/zenodo.838732)
+
 This repository pertains to the molecular architecture of the yeast spindle pole body (SPB), the structural and functional equivalent of the metazoan centrosome. Data from in vivo FRET and yeast two-hybrid, along with SAXS, X-ray crystallography, and electron microscopy were integrated by a Bayesian structure modeling approach.
 
 The repository contains input data, scripts for modeling and results including bead models and localization probability density maps. It uses [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*).

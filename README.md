@@ -33,4 +33,4 @@ _Testable_: Yes.
 _Parallelizeable_: Yes
 
 _Publications_:
- - S. Viswanath*, M. Bonomi*, S.J. Kim, N.T. Umbreit, K. Taylor, D. Klenchin, K. Yabut, H.A.Van Epps, J. Meehl, M.H. Jones, D. Russel, J.A. Velazquez-Muriel, M. Winey, I. Rayment, T.N. Davis, A. Sali, and E.G. Muller, The molecular architecture of the yeast spindle pole body core determined by Bayesian integrative modeling, submitted.
+ - S. Viswanath*, M. Bonomi*, S.J. Kim, N.T. Umbreit, K. Taylor, D. Klenchin, K. Yabut, H.A.Van Epps, J. Meehl, M.H. Jones, D. Russel, J.A. Velazquez-Muriel, M. Winey, I. Rayment, T.N. Davis, A. Sali, and E.G. Muller, The molecular architecture of the yeast spindle pole body core determined by Bayesian integrative modeling, Molecular Biology of the Cell 28, 3298-3314, 2017.

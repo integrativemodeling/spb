@@ -11,7 +11,7 @@ import saxs
 import em2d
 import compmodel
 
-system = ihm.System()
+system = ihm.System(title='Yeast spindle pole body core')
 
 system.citations.append(ihm.Citation(
           pmid='28814505',
@@ -25,6 +25,9 @@ system.citations.append(ihm.Citation(
                    'Velazquez-Muriel JA', 'Winey M', 'Rayment I', 'Davis TN', 'Sali A', 'Muller EG'],
           doi='10.1091/mbc.E17-06-0397'))
 
+#########################################
+######### SOFTWARE USED ##################
+#########################################
 # We used Modeller to build homology models for Spc110-Cmd1 complex
 system.software.append(ihm.Software(
           name='Modeller', classification='protein homology modeling',
@@ -44,10 +47,108 @@ system.software.append(ihm.Software(
           classification="integrative model building",
           description="integrative model building",
           location='https://integrativemodeling.org'))
-# Gazillion software to process the SAXS data. Should I list those? 
+
+# Software to process the SAXS data.
+system.software.append(ihm.Software(
+          name="ATSAS",
+          version="2.8.3"
+          classification="SAXS data processing",
+          description="calculate ab-initio shape, rg, dmax and pair distribution function",
+          location='https://www.embl-hamburg.de/biosaxs/software.html'))
+
+system.software.append(ihm.Software(
+          name="SAXSMoW",
+          classification="SAXS data processing",
+          description="calculate molecular weight from SAXS",
+          location='https://saxs.ifsc.usp.br/'))
+
+#########################################
+######### DATASETS ######################
+#########################################
+# PDB 
+
+
+# FRET dataset
+fret_repo = ihm.location.Repository(doi='10.  /zenodo.   ',
+        url='https://zenodo.org/record/  /files/archive.zip')
+fret_location = ihm.location.InputFileLocation("??", repo=fret_repo)
+system.locations.append(fret_location)
+
+fret_data = ihm.dataset.Dataset(fret_location)
+
+# SAXS dataset
+saxs_repo = ihm.location.Repository(doi='10.  /zenodo.   ',
+        url='https://zenodo.org/record/  /files/archive.zip')
+saxs_mol_wt_location = ihm.location.InputFileLocation("", repo=saxs_repo)
+saxs_profiles_location = ihm.location.InputFileLocation("",repo=saxs_repo)
+system.locations.append(saxs_mol_wt_location)
+system.locations.append(saxs_profiles_location)
+
+saxs_mow_data = ihm.dataset.Dataset(saxs_mol_wt_location)
+saxs_shape_rg_data = ihm.dataset.Dataset(saxs_mol_wt_location)
+
+# Y2H dataset
 
 
 
+
+# EM map
+
+
+
+# Biochemical site info
+
+
+# Layer localization info
+
+
+# Genetic screens dataset
+genetic_screens_repo = ihm.location.Repository(doi='10.  /zenodo.   ',
+        url='https://zenodo.org/record/  /files/archive.zip')
+genetic_screens_location = ihm.location.InputFileLocation("??", repo=genetic_screens_repo)
+system.locations.append(genetic_screens_location)
+
+genetic_screens_data = ihm.dataset.Dataset(genetic_screens_location)
+
+#########################################
+######### SYSTEM  #######################
+#########################################
+
+How do you represent this? 
+
+Do you add cell size, and layer size as 
+part of the representation?
+
+
+
+
+
+
+#########################################
+######### RESTRAINTS  ###################
+#########################################
+
+#########################################
+######### MODELING PROTOCOL  ############
+#########################################
+
+
+
+
+
+
+
+#########################################
+######### VALIDATION, FIT TO DATA? ######
+#########################################
+
+
+
+
+
+#########################################
+######### FINAL OUTPUTS #################
+#########################################
 
 # Localization densities are in the Ensemble class.
 # Why is there no support to add densities? 

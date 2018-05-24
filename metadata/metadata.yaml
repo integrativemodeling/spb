@@ -1,5 +1,6 @@
 title: Spindle Pole Body core
 tags: [in-vivo FRET, EM, SAXS, yeast two-hybrid]
+pmid: 28814505
 prereqs: [python/scipy, python/matplotlib, python/numpy]
 test:
     runtime: 24h

@@ -7,7 +7,7 @@ The repository contains input data, scripts for modeling and results including b
 ## Prerequisites for running the code
 Note that the SPB code is almost fully written in C++ and uses native IMP, unlike most other recent integrative modeling projects that use [PMI](https://github.com/salilab/pmi). 
 The SPB modeling relies on the [IMP.spb module](https://integrativemodeling.org/nightly/doc/ref/namespaceIMP_1_1spb.html),
-which is included with IMP nightly builds.
+which is included with IMP version 2.9.0 or later.
 The IMP code must be compiled with [MPI](https://integrativemodeling.org/2.7.0/doc/ref/namespaceIMP_1_1mpi.html)
 support so that replica exchange can be used.
 

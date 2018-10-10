@@ -9,7 +9,7 @@ Each cluster contains:
       
 - **Per-bead densities** : `*.dx`, localization probability density maps for the cluster. 
 
-  To visualize these in Chimera, run the followin in the directory containing
+  To visualize these in Chimera, run the following in the directory containing
 the models and densities:
     `scripts/chimera/create_chimera_command_file_densities.sh HM.dat`
       This will create a file called `chimera_density_command_lines.txt`.  

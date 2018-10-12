@@ -5,11 +5,9 @@ import ihm.dumper
 import ihm.representation
 import ihm.model
 import ihm.protocol
+import ihm.dataset
 import ihm.analysis
-import pdb
-import saxs
-import em2d
-import compmodel
+import rmf_file
 
 system = ihm.System(title='Yeast spindle pole body core')
 
@@ -51,7 +49,7 @@ system.software.append(ihm.Software(
 # Software to process the SAXS data.
 system.software.append(ihm.Software(
           name="ATSAS",
-          version="2.8.3"
+          version="2.8.3",
           classification="SAXS data processing",
           description="calculate ab-initio shape, rg, dmax and pair distribution function",
           location='https://www.embl-hamburg.de/biosaxs/software.html'))
@@ -111,18 +109,10 @@ system.locations.append(genetic_screens_location)
 genetic_screens_data = ihm.dataset.Dataset(genetic_screens_location)
 
 #########################################
-######### SYSTEM  #######################
+######### Representation  ###############
 #########################################
 
-How do you represent this? 
-
-Do you add cell size, and layer size as 
-part of the representation?
-
-
-
-
-
+entities_by_name = rmf_file.make_representation(system)
 
 #########################################
 ######### RESTRAINTS  ###################
@@ -156,3 +146,6 @@ part of the representation?
 
 
 
+# Write out in mmCIF format
+with open('spb.cif', 'w') as fh:
+    ihm.dumper.write(fh, [system])

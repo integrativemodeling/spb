@@ -36,28 +36,31 @@ def _add_asym_representation(hier, asym, rep):
     """Add representation for asym to rep"""
     segments = []
     numbeads = []
-    last_coiled_coil = None
+    coiled_coils = []
+    rigids = []
     for c in hier.get_children():
         coiled_coil = '_CC' in c.get_name()
+        rigid = IMP.core.RigidMember.get_is_setup(c)
         assert IMP.atom.Domain.get_is_setup(c)
         rng = IMP.atom.Domain(c).get_index_range()
         # Join neighboring beads into one segment, unless one bead is
         # a coiled call and the other isn't
         # rng[1]-1 because IHM ranges are inclusive but Domain ranges aren't
         if segments and segments[-1][1] == rng[0] - 1 \
-           and coiled_coil == last_coiled_coil:
+           and coiled_coil == coiled_coils[-1] and rigid == rigids[-1]:
             segments[-1][1] = rng[1] - 1
             numbeads[-1] += 1
         else:
             segments.append([rng[0], rng[1] - 1])
             numbeads.append(1)
-        last_coiled_coil = coiled_coil
-    for seg, nbead in zip(segments, numbeads):
+            coiled_coils.append(coiled_coil)
+            rigids.append(rigid)
+    for seg, nbead, rigid in zip(segments, numbeads, rigids):
         # RMF says 3 50-residue beads represent GFP, starting at residue 0,
         # but GFP really has 238 residues, so adjust accordingly
         if 'GFP' in hier.get_name() and seg == [0,149]:
             seg = [1,238]
         # todo: add starting model where appropriate
-        rep.append(ihm.representation.FeatureSegment(asym(*seg), rigid=False,
+        rep.append(ihm.representation.FeatureSegment(asym(*seg), rigid=rigid,
                                                      primitive='sphere',
                                                      count=nbead))

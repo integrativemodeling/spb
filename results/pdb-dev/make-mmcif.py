@@ -112,7 +112,7 @@ genetic_screens_data = ihm.dataset.Dataset(genetic_screens_location)
 ######### Representation  ###############
 #########################################
 
-entities_by_name = rmf_file.make_representation(system)
+entities_by_name, representation = rmf_file.make_representation(system)
 
 #########################################
 ######### RESTRAINTS  ###################

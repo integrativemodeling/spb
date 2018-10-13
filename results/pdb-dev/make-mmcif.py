@@ -34,10 +34,11 @@ system.software.append(ihm.Software(
           location='https://salilab.org/modeller/'))
 
 # We used CCCP server to build coiled-coil models for several subunits
-system.software.append(ihm.Software(
+cccp = ihm.Software(
           name='CCCP', classification='coiled-coil modeling',
           description='Coiled-coil model construction by Crick parametrization',
-          location='https://arteni.cs.dartmouth.edu/cccp/index.gen.php'))
+          location='https://arteni.cs.dartmouth.edu/cccp/index.gen.php')
+system.software.append(cccp)
 # We used various tools from IMP (e.g. FoXS)
 system.software.append(ihm.Software(
           name="Integrative Modeling Platform (IMP)",
@@ -112,7 +113,7 @@ genetic_screens_data = ihm.dataset.Dataset(genetic_screens_location)
 ######### Representation  ###############
 #########################################
 
-entities_by_name, representation = rmf_file.make_representation(system)
+entities_by_name, representation = rmf_file.make_representation(system, cccp)
 
 #########################################
 ######### RESTRAINTS  ###################

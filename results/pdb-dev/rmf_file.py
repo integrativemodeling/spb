@@ -32,6 +32,8 @@ def make_representation(system, cccp):
     ccdatasets = _get_starting_coiled_coil_datasets()
 
     entities_by_name = {}
+    # Map from localization density filename to list of asym ranges
+    density_map = {}
     rep = ihm.representation.Representation()
 
     m = IMP.Model()
@@ -47,9 +49,41 @@ def make_representation(system, cccp):
         asym = ihm.AsymUnit(entities_by_name[entity_name], details=name)
         system.asym_units.append(asym)
         _add_asym_representation(h, asym, rep, ccdatasets, cccp)
+        _add_density_map(h, asym, density_map)
 
     system.orphan_representations.append(rep)
-    return entities_by_name, rep
+    return entities_by_name, rep, density_map
+
+def _add_density_map(hier, asym, density_map):
+    """Assign domains to localization density maps"""
+    # see also get_map() in IMP::spb's spb_density_perbead.cpp
+    name_map = {"Spc110":"Spc110p", "Cmd1":"Cmd1p", "Cnm67":"Cnm67p",
+                "Spc42_CC":"Spc42_CC", "Spc42p_c0":"Spc42p_c0",
+                "Spc42p_c1":"Spc42p_c1", "Spc42p_c2":"Spc42p_c2",
+                "Spc42p_n0":"Spc42p_n0", "Spc29p_n0":"Spc29p_n0",
+                "Spc29p_n1":"Spc29p_n1", "Spc29p_n2":"Spc29p_n2",
+                "Spc29p_c0":"Spc29p_c0", "Spc29p_c1":"Spc29p_c1",
+                "Spc29p_c2":"Spc29p_c2"}
+    def get_density(bead):
+        name = bead.get_name()
+        for domainfrag, density_name in name_map.items():
+            if domainfrag in name:
+                return density_name
+
+    for c in hier.get_children():
+        den = get_density(c)
+        if den:
+            rng = IMP.atom.Domain(c).get_index_range()
+            if den not in density_map:
+                density_map[den] = [asym(rng[0], rng[1]-1)]
+            else:
+                # Combine this bead with previous if they are contiguous
+                prev = density_map[den][-1]
+                if prev.asym == asym \
+                   and prev.seq_id_range[1] == rng[0] - 1:
+                    density_map[den][-1] = asym(prev.seq_id_range[0], rng[1]-1)
+                else:
+                    density_map[den].append(asym(rng[0], rng[1]-1))
 
 def _add_asym_representation(hier, asym, rep, ccdatasets, cccp):
     """Add representation for asym to rep"""

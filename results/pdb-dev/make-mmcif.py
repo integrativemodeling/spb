@@ -96,7 +96,8 @@ fret_data = ihm.dataset.Dataset(ihm.location.InputFileLocation(
 ######### Representation  ###############
 #########################################
 
-entities_by_name, representation = rmf_file.make_representation(system, cccp)
+(entities_by_name, representation,
+        density_map) = rmf_file.make_representation(system, cccp)
 
 assembly = ihm.Assembly(system.asym_units[:], name='Modeled assembly')
 
@@ -144,9 +145,9 @@ system.state_groups.append(ihm.model.StateGroup([state]))
 
 # Clusters
 for with_spc29, num in ('without', '2.1'), ('with', '2.2'), ('with', '2.3'):
-    fname = os.path.join('..', 'final_models_1x_Spc29',
-                         'cluster_%s_Spc29' % with_spc29, 'cluster%s' % num,
-                         'top_scoring_model.rmf')
+    subdir = os.path.join('..', 'final_models_1x_Spc29',
+                          'cluster_%s_Spc29' % with_spc29, 'cluster%s' % num)
+    fname = os.path.join(subdir, 'top_scoring_model.rmf')
     m = rmf_file.Model(assembly=assembly, protocol=protocol,
                        representation=representation, file_name=fname,
                        asym_units=system.asym_units)
@@ -155,7 +156,14 @@ for with_spc29, num in ('without', '2.1'), ('with', '2.2'), ('with', '2.3'):
     # todo: fill in correct number of ensemble models
     e = ihm.model.Ensemble(model_group=mg, num_models=999,
                            name='All models in cluster %s' % num)
-    # todo: add localization densities to e.densities
+    # Add localization densities
+    for density_name, rnglist in density_map.items():
+        fname = os.path.join(subdir, density_name + '.dx')
+        if os.path.exists(fname):
+            loc = ihm.location.OutputFileLocation(fname)
+            for rng in rnglist:
+                d = ihm.model.LocalizationDensity(file=loc, asym_unit=rng)
+                e.densities.append(d)
     system.ensembles.append(e)
 
 

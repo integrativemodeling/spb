@@ -98,3 +98,32 @@ def _get_coiled_coil_starting_model(asym, seg, ccdatasets, cccp):
     ccdatasets[length] = list(reversed(ccdatasets[length]))
     return ihm.startmodel.StartingModel(asym(*seg), dataset=ds,
                     asym_id=ds.spb_chain, offset=seg[0]-1, software=cccp)
+
+
+class Model(ihm.model.Model):
+    """Pass an RMF model through to IHM"""
+    def __init__(self, file_name, asym_units, **kwargs):
+        super(Model, self).__init__(**kwargs)
+        self.file_name = file_name
+        self.asym_units = asym_units
+
+    def get_spheres(self):
+        # Traverse the RMF file, and yield ihm.model.Sphere objects for
+        # each bead
+        m = IMP.Model()
+        rh = RMF.open_rmf_file_read_only(self.file_name)
+        hs = IMP.rmf.create_hierarchies(rh, m)
+        for h, asym in zip(hs, self.asym_units):
+            for bead in h.get_children():
+                assert IMP.atom.Domain.get_is_setup(bead)
+                assert IMP.core.XYZR.get_is_setup(bead)
+                rng = IMP.atom.Domain(bead).get_index_range()
+                xyzr = IMP.core.XYZR(bead)
+                coord = xyzr.get_coordinates()
+                # rng[1]-1 because IHM ranges are inclusive but Domain
+                # ranges aren't
+                # todo: fix range for GFP
+                yield ihm.model.Sphere(asym_unit=asym,
+                                       seq_id_range=(rng[0], rng[1]-1),
+                                       x=coord[0], y=coord[1], z=coord[2],
+                                       radius=xyzr.get_radius())

@@ -8,6 +8,7 @@ import ihm.protocol
 import ihm.dataset
 import ihm.analysis
 import rmf_file
+import os
 
 system = ihm.System(title='Yeast spindle pole body core')
 
@@ -40,12 +41,13 @@ cccp = ihm.Software(
           location='https://arteni.cs.dartmouth.edu/cccp/index.gen.php')
 system.software.append(cccp)
 # We used various tools from IMP (e.g. FoXS)
-system.software.append(ihm.Software(
+imp = ihm.Software(
           name="Integrative Modeling Platform (IMP)",
           version="2.3",
           classification="integrative model building",
           description="integrative model building",
-          location='https://integrativemodeling.org'))
+          location='https://integrativemodeling.org')
+system.software.append(imp)
 
 # Software to process the SAXS data.
 system.software.append(ihm.Software(
@@ -115,6 +117,8 @@ genetic_screens_data = ihm.dataset.Dataset(genetic_screens_location)
 
 entities_by_name, representation = rmf_file.make_representation(system, cccp)
 
+assembly = ihm.Assembly(system.asym_units[:], name='Modeled assembly')
+
 #########################################
 ######### RESTRAINTS  ###################
 #########################################
@@ -123,10 +127,22 @@ entities_by_name, representation = rmf_file.make_representation(system, cccp)
 ######### MODELING PROTOCOL  ############
 #########################################
 
+protocol = ihm.protocol.Protocol(name='Modeling')
 
+protocol.steps.append(ihm.protocol.Step(
+                 assembly=assembly, dataset_group=None,
+                 method='Monte Carlo',
+                 name='Monte Carlo Gibbs sampling by parallel tempering '
+                      'in the well-tempered ensemble',
+                 num_models_begin=1, num_models_end=48000,
+                 software=imp))
 
-
-
+# todo: fill in correct numbers of models
+analysis = ihm.analysis.Analysis()
+analysis.steps.append(ihm.analysis.ClusterStep(
+                feature='RMSD', num_models_begin=48000, num_models_end=48000,
+                assembly=assembly, dataset_group=None))
+protocol.analyses.append(analysis)
 
 
 #########################################
@@ -141,10 +157,25 @@ entities_by_name, representation = rmf_file.make_representation(system, cccp)
 ######### FINAL OUTPUTS #################
 #########################################
 
-# Localization densities are in the Ensemble class.
-# Why is there no support to add densities? 
-# In IM those are as important as, if not more important than the models. 
+# Single state
+state = ihm.model.State()
+system.state_groups.append(ihm.model.StateGroup([state]))
 
+# Clusters
+for with_spc29, num in ('without', '2.1'), ('with', '2.2'), ('with', '2.3'):
+    fname = os.path.join('..', 'final_models_1x_Spc29',
+                         'cluster_%s_Spc29' % with_spc29, 'cluster%s' % num,
+                         'top_scoring_model.rmf')
+    m = rmf_file.Model(assembly=assembly, protocol=protocol,
+                       representation=representation, file_name=fname,
+                       asym_units=system.asym_units)
+    mg = ihm.model.ModelGroup([m], name='All models in cluster %s' % num)
+    state.append(mg)
+    # todo: fill in correct number of ensemble models
+    e = ihm.model.Ensemble(model_group=mg, num_models=999,
+                           name='All models in cluster %s' % num)
+    # todo: add localization densities to e.densities
+    system.ensembles.append(e)
 
 
 # Write out in mmCIF format

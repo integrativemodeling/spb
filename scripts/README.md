@@ -19,14 +19,15 @@ working directory.
         - inputs for sampling (`inputs/shared_inputs`; see README in `inputs` directory)  
         - sampling config file (see `config_files/production/sample/`
           directory)  
-    - **Running:**  The sampling can be done in the `SAMPLING` directory by
+   - **Running:**  The sampling can be done in the `SAMPLING` directory by
       simply running "`mpirun -np 8 spb`". This is an MPI job using one core
       for each replica. The number of replicas has been optimized as 8
       based on the exchange acceptance rate. This will typically take 5-10
       days to run on a modern Linux box or cluster. The actual SGE script used
       for running on a cluster can be found as
       `scripts/sample/job_sample.sh`.
-    - **Outputs:**  The script should produce `traj*.rmf` which are RMF files that store model coordinates and `trajisd*.rmf` that store ISD coordinates such as FRET parameters, cell size and so on. Also `log*` files show the time step, temperature, FRET forward model values and parameters, FRET and yeast two-hybrid scores, Bias values, cell size, CP layer size, and other parameters at each step.
+      
+   - **Outputs:**  The script should produce `traj*.rmf` which are RMF files that store model coordinates and `trajisd*.rmf` that store ISD coordinates such as FRET parameters, cell size and so on. Also `log*` files show the time step, temperature, FRET forward model values and parameters, FRET and yeast two-hybrid scores, Bias values, cell size, CP layer size, and other parameters at each step.
     - **Test version:** For testing the code, the same inputs can be used with
       a test config file for sampling (see `config_files/test/sample/`
       directory), which executes a shorter sampling run (5000 steps instead
@@ -52,9 +53,9 @@ Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for
       - The `BIAS` file from the sampling directory
       - Inputs for analysis (`inputs/analysis`) along with shared inputs (`inputs/shared_inputs`)
       - Config file for analysis (see `config_files`) 
-    - **Running:** The sample SGE script provided (`scripts/analysis/job_analysis.sh`) extracts and rescores multiple frames in a (trivially) parallel manner. Each frame at temperature 1K is extracted from the trajectories output from sampling, stored in the directory `RMF`, and rescored with the EM2D restraint.    
-    - **Outputs:** Frames (models) at temperature 1 K are extracted from the sampling trajectories and placed in a separate folder with one model per RMF. For each frame that is rescored, 2 files are output: `fret.dat` (contains FRET score and FRET forward model values) and `log.dat` (contains model weight, model score, the EM2D score, and other parameters such as unit cell size for the model). 
-    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below. Do not forget to use the test config script (see `config_files` directory) while running the test script.
+   - **Running:** The sample SGE script provided (`scripts/analysis/job_analysis.sh`) extracts and rescores multiple frames in a (trivially) parallel manner. Each frame at temperature 1K is extracted from the trajectories output from sampling, stored in the directory `RMF`, and rescored with the EM2D restraint.    
+   - **Outputs:** Frames (models) at temperature 1 K are extracted from the sampling trajectories and placed in a separate folder with one model per RMF. For each frame that is rescored, 2 files are output: `fret.dat` (contains FRET score and FRET forward model values) and `log.dat` (contains model weight, model score, the EM2D score, and other parameters such as unit cell size for the model). 
+   - **Test version:** The frames created in the test sampling run can be analysed using the test script as below. Do not forget to use the test config script (see `config_files` directory) while running the test script.
       `$SPB/scripts/analysis/test_analysis.sh`
      
 ## 4. Cluster 

@@ -19,6 +19,7 @@ working directory.
         - inputs for sampling (`inputs/shared_inputs`; see README in `inputs` directory)  
         - sampling config file (see `config_files/production/sample/`
           directory)  
+          
    - **Running:**  The sampling can be done in the `SAMPLING` directory by
       simply running "`mpirun -np 8 spb`". This is an MPI job using one core
       for each replica. The number of replicas has been optimized as 8
@@ -28,7 +29,8 @@ working directory.
       `scripts/sample/job_sample.sh`.
       
    - **Outputs:**  The script should produce `traj*.rmf` which are RMF files that store model coordinates and `trajisd*.rmf` that store ISD coordinates such as FRET parameters, cell size and so on. Also `log*` files show the time step, temperature, FRET forward model values and parameters, FRET and yeast two-hybrid scores, Bias values, cell size, CP layer size, and other parameters at each step.
-    - **Test version:** For testing the code, the same inputs can be used with
+   
+   - **Test version:** For testing the code, the same inputs can be used with
       a test config file for sampling (see `config_files/test/sample/`
       directory), which executes a shorter sampling run (5000 steps instead
       of 120000 steps).
@@ -53,8 +55,11 @@ Create a `DATA` sub-directory in `ANALYSIS` that will contain the input data for
       - The `BIAS` file from the sampling directory
       - Inputs for analysis (`inputs/analysis`) along with shared inputs (`inputs/shared_inputs`)
       - Config file for analysis (see `config_files`) 
+      
    - **Running:** The sample SGE script provided (`scripts/analysis/job_analysis.sh`) extracts and rescores multiple frames in a (trivially) parallel manner. Each frame at temperature 1K is extracted from the trajectories output from sampling, stored in the directory `RMF`, and rescored with the EM2D restraint.    
+   
    - **Outputs:** Frames (models) at temperature 1 K are extracted from the sampling trajectories and placed in a separate folder with one model per RMF. For each frame that is rescored, 2 files are output: `fret.dat` (contains FRET score and FRET forward model values) and `log.dat` (contains model weight, model score, the EM2D score, and other parameters such as unit cell size for the model). 
+   
    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below. Do not forget to use the test config script (see `config_files` directory) while running the test script.
       `$SPB/scripts/analysis/test_analysis.sh`
      
@@ -71,7 +76,7 @@ In the parent directory of `ANALYSIS`, create another directory called `CLUSTER`
    - **Running:** The sample SGE script provided (`scripts/cluster/job_cluster.sh`) runs clustering (takes ~8 hrs on one core).  
 
    - **Outputs:** The outputs are 3 files: `cluster_center.dat` (File containing list of clusters, one per line. Each line has cluster population, model corresponding to cluster center, cluster diameter and mean distance between models in the cluster.),  `cluster_distance.dat` (Pairwise distances between cluster centers) and `cluster_traj_score_weight.dat` (File with one line per model: each line containing model number, cluster it belongs to, model score, model weight and unit cell size in the model).   
-
+   
    - **Test version:** The frames created in the test sampling run can be analysed using the test script as below, run in the `CLUSTER` directory. Do not forget to use the test config script (see `config_files` directory) while running the test script.
 `$SPB/scripts/cluster/test_cluster.sh`
 
@@ -87,13 +92,16 @@ In the parent directory of `CLUSTER`, create another directory called `MAKE_DENS
    - **Inputs:** The inputs that need to be in this directory include:    
         - Shared inputs (`inputs/shared_inputs`)  
         - Config file for density maps (see `config_files`)
+        
    - **Running:** The sample SGE script provided
      (`scripts/density_perbead/job_density_perbead.sh`) runs density
      calculation for cluster 0, in less than an hour on 64 cores.
      (This step will run faster on more cores - unlike the sampling step the
      number of cores doesn't have to match the number of replicas used.)
-    - **Outputs:** The outputs are files `*.dx` corresponding to the densities of different proteins and domains. Also generated is a file `HM.dat`, that provides the value of the densities at half the maximum (for visualization in Chimera). 
-    - **Test version:** The frames clustered in the test clustering run can be visualized by running the test script from the `MAKE_DENSITY_PERBEAD` directory as below Do not forget to use the test config (see `config_files` directory) while running the test script.
+     
+   - **Outputs:** The outputs are files `*.dx` corresponding to the densities of different proteins and domains. Also generated is a file `HM.dat`, that provides the value of the densities at half the maximum (for visualization in Chimera).
+    
+   - **Test version:** The frames clustered in the test clustering run can be visualized by running the test script from the `MAKE_DENSITY_PERBEAD` directory as below Do not forget to use the test config (see `config_files` directory) while running the test script.
     `$SPB/scripts/density_perbead/test_density_perbead.sh`
 
 To visualize the densities, they can be loaded in Chimera as follows. First,

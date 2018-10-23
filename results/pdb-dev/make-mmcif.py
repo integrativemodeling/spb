@@ -70,23 +70,10 @@ system.software.append(ihm.Software(
 
 
 # FRET dataset
-fret_repo = ihm.location.Repository(doi='10.  /zenodo.   ',
-        url='https://zenodo.org/record/  /files/archive.zip')
-fret_location = ihm.location.InputFileLocation("??", repo=fret_repo)
-system.locations.append(fret_location)
-
-fret_data = ihm.dataset.Dataset(fret_location)
+fret_data = ihm.dataset.Dataset(ihm.location.InputFileLocation(
+                            '../../inputs/shared_inputs/fret_2014.dat'))
 
 # SAXS dataset
-saxs_repo = ihm.location.Repository(doi='10.  /zenodo.   ',
-        url='https://zenodo.org/record/  /files/archive.zip')
-saxs_mol_wt_location = ihm.location.InputFileLocation("", repo=saxs_repo)
-saxs_profiles_location = ihm.location.InputFileLocation("",repo=saxs_repo)
-system.locations.append(saxs_mol_wt_location)
-system.locations.append(saxs_profiles_location)
-
-saxs_mow_data = ihm.dataset.Dataset(saxs_mol_wt_location)
-saxs_shape_rg_data = ihm.dataset.Dataset(saxs_mol_wt_location)
 
 # Y2H dataset
 
@@ -104,12 +91,6 @@ saxs_shape_rg_data = ihm.dataset.Dataset(saxs_mol_wt_location)
 
 
 # Genetic screens dataset
-genetic_screens_repo = ihm.location.Repository(doi='10.  /zenodo.   ',
-        url='https://zenodo.org/record/  /files/archive.zip')
-genetic_screens_location = ihm.location.InputFileLocation("??", repo=genetic_screens_repo)
-system.locations.append(genetic_screens_location)
-
-genetic_screens_data = ihm.dataset.Dataset(genetic_screens_location)
 
 #########################################
 ######### Representation  ###############

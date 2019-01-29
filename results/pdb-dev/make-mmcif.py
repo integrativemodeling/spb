@@ -1,6 +1,11 @@
 
 #!/usr/bin/env python
 
+"""Collect data on the yeast Spindle Pole Body core and output an mmCIF file suitable for
+   deposition at PDB-Dev, https://pdb-dev.wwpdb.org/. This uses the python-ihm
+   library, available at https://github.com/ihmwg/python-ihm.
+"""
+
 import ihm.dumper
 import ihm.representation
 import ihm.model
@@ -40,6 +45,7 @@ cccp = ihm.Software(
           description='Coiled-coil model construction by Crick parametrization',
           location='https://arteni.cs.dartmouth.edu/cccp/index.gen.php')
 system.software.append(cccp)
+
 # We used various tools from IMP (e.g. FoXS)
 imp = ihm.Software(
           name="Integrative Modeling Platform (IMP)",
@@ -66,14 +72,22 @@ system.software.append(ihm.Software(
 #########################################
 ######### DATASETS ######################
 #########################################
-# PDB 
+# PDB data
+spc110_cmd1_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('4DS7'))
 
+cnm67_cterm_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('3OA7'))
+
+gfp_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('1EMA'))
+
+#TODO How do we link these PDBs to the representation? I am lost here. 
 
 # FRET dataset
-fret_data = ihm.dataset.Dataset(ihm.location.InputFileLocation(
-                            '../../inputs/shared_inputs/fret_2014.dat'))
+fret_data = ihm.dataset.Dataset(ihm.location.DatabaseLocation(,repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1209565", root="../../%s" % subdir,
+          url="https://zenodo.org/record/1209565/files/%s.zip" % zipname,
+          top_directory=os.path.basename(subdir))
 
-# SAXS dataset
+# SAXS dataset, incl. molecular weights
 
 # Y2H dataset
 
@@ -92,6 +106,10 @@ fret_data = ihm.dataset.Dataset(ihm.location.InputFileLocation(
 
 # Genetic screens dataset
 
+# EM labeling info
+
+
+
 #########################################
 ######### Representation  ###############
 #########################################
@@ -104,6 +122,11 @@ assembly = ihm.Assembly(system.asym_units[:], name='Modeled assembly')
 #########################################
 ######### RESTRAINTS  ###################
 #########################################
+# Refer Table S6, S1 in the paper.
+
+
+
+
 
 #########################################
 ######### MODELING PROTOCOL  ############

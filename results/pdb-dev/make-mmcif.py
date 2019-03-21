@@ -82,12 +82,22 @@ gfp_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('1EMA'))
 #TODO How do we link these PDBs to the representation? I am lost here. 
 
 # FRET dataset
-fret_data = ihm.dataset.Dataset(ihm.location.DatabaseLocation(,repo=ihm.location.Repository(
-          doi="10.5281/zenodo.1209565", root="../../%s" % subdir,
-          url="https://zenodo.org/record/1209565/files/%s.zip" % zipname,
-          top_directory=os.path.basename(subdir))
+fret_data = ihm.dataset.Dataset(ihm.location.InputFileLocation('fret_data.doc',repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1219204",
+          url="https://zenodo.org/record/1209565/files/fret.zip"), details="Pairwise in-vivo FRET data points on SPB core proteins"))
 
-# SAXS dataset, incl. molecular weights
+# SAXS dataset
+# SAXS profile of Spc110-Cmd1 monomer was used for validating the comparative model
+# SAXS profile of Spc110-Cmd1 dimer was used for forming pairwise distance restraints on the dimer structure 
+# SAXS profile of Spc29 was used for restraining its length 
+saxs_profiles = ihm.dataset.Dataset(ihm.location.InputFileLocation('Figure_2_SAXS_Spc110_Cmd1_Spc29.gif',repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1219204",
+          url="https://zenodo.org/record/1209565/files/saxs.zip"), details="SAXS profiles of Spc110-Cmd1 and Spc29 used for validating    the comparative model and forming restraints for modeling"))
+
+# Molecular weights of Spc110-Cmd1 and Spc29 from SAXS were used for validation.
+saxs_molecular_weights = ihm.dataset.Dataset(ihm.location.InputFileLocation('Table_Molecular_Weights.xlsx',repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1219204",
+          url="https://zenodo.org/record/1209565/files/saxs.zip"), details="Molecular weight estimation from SAXS for Spc110-Cmd1 and Spc29"))
 
 # Y2H dataset
 

@@ -8,7 +8,12 @@ import ihm
 import ihm.startmodel
 
 def _get_starting_coiled_coil_datasets():
-    """Get the starting coiled-coil datasets"""
+    """Get the starting coiled-coil datasets.
+       Some parts of the system were identified as coiled-coil and so the
+       starting structures for the simulation were taken from ideal coiled-coil
+       structures generated with CCCP. These come in two lengths - 120 and
+       78 residues. Return a mapping from length to the files used
+       (per chain)."""
     ccpath = "../../inputs/shared_inputs"
     datasets = {120:[], 78:[]}
 
@@ -24,13 +29,16 @@ def _get_starting_coiled_coil_datasets():
     return datasets
 
 def make_representation(system, cccp):
-    """Using one of the output RMFs as a guide, create the IHM representation"""
+    """Using one of the output RMFs as a guide, create the IHM representation
+       (i.e. the subunits in the system and how residues are represented
+       as beads)."""
     fname = os.path.join('..', 'final_models_1x_Spc29', 'cluster_without_Spc29',
                          'cluster2.1/top_scoring_model.rmf')
     seqs = IMP.pmi.topology.Sequences(os.path.join('..', '..', 'inputs',
                                                 'shared_inputs', 'seqs.fasta'))
     ccdatasets = _get_starting_coiled_coil_datasets()
 
+    # Mapping from RMF names of subunits to ihm.Entity objects
     entities_by_name = {}
     # Map from localization density filename to list of asym ranges
     density_map = {}
@@ -86,11 +94,13 @@ def _add_density_map(hier, asym, density_map):
                     density_map[den].append(asym(rng[0], rng[1]-1))
 
 def _add_asym_representation(hier, asym, rep, ccdatasets, cccp):
-    """Add representation for asym to rep"""
+    """Add representation for the given chain (hier, asym) to rep"""
     segments = []
     numbeads = []
     coiled_coils = []
     rigids = []
+    # Go through all RMF particles for this chain and collect into segments
+    # of beads with the same representation
     for c in hier.get_children():
         coiled_coil = '_CC' in c.get_name()
         rigid = IMP.core.RigidMember.get_is_setup(c)
@@ -118,6 +128,7 @@ def _add_asym_representation(hier, asym, rep, ccdatasets, cccp):
         if coiled_coil:
             smodel = _get_coiled_coil_starting_model(asym, seg, ccdatasets,
                                                      cccp)
+        # Tell ihm that this segment was represented by beads
         rep.append(ihm.representation.FeatureSegment(asym(*seg), rigid=rigid,
                                                      primitive='sphere',
                                                      count=nbead,

@@ -72,7 +72,7 @@ system.software.append(ihm.Software(
 #########################################
 ######### DATASETS ######################
 #########################################
-# PDB data
+# 1. PDB data
 spc110_cmd1_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('4DS7'))
 
 cnm67_cterm_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('3OA7'))
@@ -81,16 +81,16 @@ gfp_pdb = ihm.dataset.Dataset(ihm.location.PDBLocation('1EMA'))
 
 #TODO How do we link these PDBs to the representation? I am lost here. 
 
-# FRET dataset
-fret_data = ihm.dataset.Dataset(ihm.location.InputFileLocation('fret_data.doc',repo=ihm.location.Repository(
+# 2. FRET dataset
+fret_data = ihm.dataset.FRETDataset(ihm.location.InputFileLocation('fret_data.doc',repo=ihm.location.Repository(
           doi="10.5281/zenodo.1219204",
           url="https://zenodo.org/record/1209565/files/fret.zip"), details="Pairwise in-vivo FRET data points on SPB core proteins"))
 
-# SAXS dataset
+# 3. SAXS dataset
 # SAXS profile of Spc110-Cmd1 monomer was used for validating the comparative model
 # SAXS profile of Spc110-Cmd1 dimer was used for forming pairwise distance restraints on the dimer structure 
 # SAXS profile of Spc29 was used for restraining its length 
-saxs_profiles = ihm.dataset.Dataset(ihm.location.InputFileLocation('Figure_2_SAXS_Spc110_Cmd1_Spc29.gif',repo=ihm.location.Repository(
+saxs_profiles = ihm.dataset.SASDataset(ihm.location.InputFileLocation('Figure_2_SAXS_Spc110_Cmd1_Spc29.gif',repo=ihm.location.Repository(
           doi="10.5281/zenodo.1219204",
           url="https://zenodo.org/record/1209565/files/saxs.zip"), details="SAXS profiles of Spc110-Cmd1 and Spc29 used for validating    the comparative model and forming restraints for modeling"))
 
@@ -99,27 +99,42 @@ saxs_molecular_weights = ihm.dataset.Dataset(ihm.location.InputFileLocation('Tab
           doi="10.5281/zenodo.1219204",
           url="https://zenodo.org/record/1209565/files/saxs.zip"), details="Molecular weight estimation from SAXS for Spc110-Cmd1 and Spc29"))
 
-# Y2H dataset
+# 4. Y2H dataset
+# Y2H modeling data
+y2h_modeling_data_list = []
+for biogrid_id in [142827,142847,142849]:
+   y2h_modeling_data_list.append(ihm.dataset.YeastTwoHybridDataset(ihm.location.BioGRIDLocation(biogrid_id)))
+y2h_modeling_data = ihm.dataset.DatasetGroup(y2h_modeling_data_list)
 
+# Y2H validation data
+y2h_validation_data_list = []
+for biogrid_id in [142825,142826]:
+   y2h_validation_data_list.append(ihm.dataset.YeastTwoHybridDataset(ihm.location.BioGRIDLocation(biogrid_id)))
+y2h_validation_data = ihm.dataset.DatasetGroup(y2h_validation_data_list)
 
+# 5. EM map
+em2d_dataset = ihm.dataset.Dataset(ihm.location.InputFileLocation('bullitt_1999_em2d_map.tiff',repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1219204",
+          url="https://zenodo.org/record/1209565/files/bullitt_1999_em2d_map.tiff"), details="Tomogram of overexpressed Spc42 from Bullitt et al 1999"))
 
+# 6. Biochemical site data
+# this data is from biochemical annalysis of the Cnm67 PDB structure, so don't need to list a separate dataset here.
 
-# EM map
+# 7. Layer localization data
+# this is based on immuno-EM. 
+#TODO How to cite it? 
 
-
-
-# Biochemical site info
-
-
-# Layer localization info
-
-
-# Genetic screens dataset
-
-# EM labeling info
-
-
-
+# 8. Genetic screens dataset
+genetic_screens_dataset = ihm.dataset.Dataset(ihm.location.InputFileLocation('Results\ of\ screens.png',repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1219204",
+          url="https://zenodo.org/record/1209565/files/genetic_screens.zip"), details="Genetic screening to validate position of Spc110 in the CP")
+                                            
+                                              
+# 9. EM labeling data
+em_labeling_dataset = ihm.dataset.Dataset(ihm.location.InputFileLocation('em_labeling.png',repo=ihm.location.Repository(
+          doi="10.5281/zenodo.1219204",
+          url="https://zenodo.org/record/1209565/files/em_labeling.png"), details="EM labeling results for setting the stoichiometry of Spc29 in the models")
+                                         
 #########################################
 ######### Representation  ###############
 #########################################
@@ -158,7 +173,6 @@ analysis.steps.append(ihm.analysis.ClusterStep(
                 feature='RMSD', num_models_begin=48000, num_models_end=48000,
                 assembly=assembly, dataset_group=None))
 protocol.analyses.append(analysis)
-
 
 #########################################
 ######### VALIDATION, FIT TO DATA? ######

@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib.tri as tri
 import numpy as np
 from numpy.random import uniform, seed
-from matplotlib.mlab import griddata
 import time
 import sys
 import matplotlib.mlab as mlab
